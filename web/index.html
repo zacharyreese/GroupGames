@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Group Games</title>
+    <meta name="description" content="Group Games - Making video games a social experience">
+    <meta name="author" content="Group ###">
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="css/style.css?v=1.0">
+</head>
+
+<body>
+    <h1>Welcome to Group Games</h1>
+
+    <!-- Join game action -->
+    <form action="game/play" method="post">
+        Game Code: <input type="text" placeholder="QXBY">
+        Username:  <input type="text" placeholder="ImReeelCool">
+        <input type="submit" value="Join!">
+    </form>
+
+    <!-- Host game action -->
+    <form action="game/host" method="post">
+        <input type="submit" value="Host New">
+    </form>
+
+    <!-- Test database action. To be removed once the database is properly configured -->
+    <form action="testdb" method="get">
+        <input type="submit" value="Test database">
+    </form>
+</body>
+</html>
