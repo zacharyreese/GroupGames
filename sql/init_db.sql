@@ -5,6 +5,8 @@ CREATE DATABASE GroupGames;
 USE GroupGames;
 
 # Create a user account for the server instance
+DROP USER 'gg_server'@'localhost';
+FLUSH PRIVILEGES;
 CREATE USER 'gg_server'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON GroupGames.* TO 'gg_server'@'localhost';
 
