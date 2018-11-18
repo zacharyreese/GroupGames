@@ -1,8 +1,8 @@
 
-DROP DATABASE IF EXISTS GroupGames;
-CREATE DATABASE GroupGames;
+DROP DATABASE IF EXISTS groupgames;
+CREATE DATABASE groupgames;
 
-USE GroupGames;
+USE groupgames;
 
 # Create a user account for the server instance
 DROP USER 'gg_server'@'localhost';

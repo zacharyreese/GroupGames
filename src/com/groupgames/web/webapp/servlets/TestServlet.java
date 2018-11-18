@@ -4,7 +4,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -18,6 +20,8 @@ public class TestServlet extends ServletTemplate {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         boolean dbInitSuccess = false;
+        PrintWriter out = response.getWriter();
+        HttpSession mySession = request.getSession();
         String successGrantMsg = "GRANT ALL PRIVILEGES ON `groupgames`.* TO `gg_server`@`localhost`";
         try {
             ResultSet rs = dbMgr.getConnection().createStatement().executeQuery("SHOW GRANTS FOR CURRENT_USER");
@@ -30,6 +34,9 @@ public class TestServlet extends ServletTemplate {
 
         if(dbInitSuccess) {
             response.getWriter().write("Success! Looks like the database is initialized!");
+            System.out.println("Successfully connected to DB");
+            System.out.println("Session ID: " + mySession.getId());
+            System.out.println("New session? " + mySession.isNew());
         } else {
             response.getWriter().write("Something went wrong. Make sure to modify and run sql/init_db.sql");
         }

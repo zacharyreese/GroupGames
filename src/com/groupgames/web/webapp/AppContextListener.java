@@ -22,7 +22,7 @@ public class AppContextListener
     // Database configuration variables.
     // TODO: Move to config file
     private static final String dbUrl  = "jdbc:mysql://localhost/";
-    private static final String dbName = "GroupGames";
+    private static final String dbName = "groupgames";
     private static final String dbUser = "gg_server";
     private static final String dbPass = "password";
 

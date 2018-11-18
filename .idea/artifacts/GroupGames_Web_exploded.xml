@@ -1,0 +1,18 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="GroupGames:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/GroupGames_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="GroupGames/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="GroupGames" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="freemarker" />
+          <element id="library" level="project" name="mysql-connector-java-8.0.12" />
+          <element id="library" level="project" name="jboss-servlet-api_4.0_spec-1.0.0.Final" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

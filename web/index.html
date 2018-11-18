@@ -14,14 +14,14 @@
     <h1>Welcome to Group Games</h1>
 
     <!-- Join game action -->
-    <form action="game/play" method="post">
-        Game Code: <input type="text" placeholder="QXBY">
-        Username:  <input type="text" placeholder="ImReeelCool">
+    <form action="game/play/join" method="post">
+        Game Code: <input type="text" placeholder="QXBY" name="gameCode">
+        Username:  <input type="text" placeholder="ImReeelCool" name="username">
         <input type="submit" value="Join!">
     </form>
 
     <!-- Host game action -->
-    <form action="game/host" method="post">
+    <form action="game/host/new" method="post">
         <input type="submit" value="Host New">
     </form>
 
