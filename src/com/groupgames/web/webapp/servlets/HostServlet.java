@@ -37,6 +37,6 @@ public class HostServlet extends ServletTemplate {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String gameID = request.getParameter("gameID");
         HttpSession hostSession = request.getSession();
-      //  hostSession.getState(); //Not initialized
+      //  hostSession.getView(); //Not initialized
     }
 }
