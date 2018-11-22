@@ -1,18 +1,14 @@
 package com.groupgames.web.game;
 
-public abstract class View {
-    private String templatePath;
+import java.io.Writer;
 
-    public View(String templatePath){
-        this.templatePath = templatePath;
-    }
+public interface View {
 
     /**
-     * Returns a corresponding FreeMarker template path for the given view.
+     * Write the view output to the client
      *
-     * @return template path relative to the template root
+     * @param out output writer to write the processed output to
+     * @return response successful
      */
-    public String getTemplatePath() {
-        return templatePath;
-    }
+    boolean respond(Writer out);
 }
