@@ -2,5 +2,6 @@
 # Don't track IntelliJ project files
 .idea
 .idea/*
+*.iml
 
 lib/*
