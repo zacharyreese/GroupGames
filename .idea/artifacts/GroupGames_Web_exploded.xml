@@ -11,6 +11,7 @@
           <element id="library" level="project" name="freemarker" />
           <element id="library" level="project" name="mysql-connector-java-8.0.12" />
           <element id="library" level="project" name="jboss-servlet-api_4.0_spec-1.0.0.Final" />
+          <element id="library" level="project" name="gson-2.8.5" />
         </element>
       </element>
     </root>

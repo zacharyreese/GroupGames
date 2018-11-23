@@ -1,4 +1,4 @@
-package com.groupgames.web.game;
+package com.groupgames.web.game.view;
 
 import java.io.Writer;
 
