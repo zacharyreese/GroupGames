@@ -28,12 +28,7 @@ public class GameAction {
         parsed = new Gson().fromJson(jsonStr, type);
 
         // Ensure all required fields are of the correct type
-        boolean validAction = true;
-        validAction &= requireField(TYPE_TAG, String.class);
-
-        // Throw an error if required fields are not present or
-        if (!validAction)
-            throw new IllegalArgumentException();
+        requireField(TYPE_TAG, String.class);
     }
 
     /**
@@ -53,7 +48,7 @@ public class GameAction {
      * @param valueType
      * @return
      */
-    protected boolean requireField(String fieldKey, Class valueType){
+    protected boolean requireField(String fieldKey, Class valueType) throws IllegalArgumentException {
         Object value = parsed.get(fieldKey);
         if (value == null)
             return false;
