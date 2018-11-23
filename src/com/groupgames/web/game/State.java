@@ -1,10 +1,12 @@
 package com.groupgames.web.game;
 
+import com.groupgames.web.game.view.View;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class State {
-    private StateManager manager;
+    protected StateManager manager;
     private Map<String, Object> context;
 
     /**
@@ -24,7 +26,7 @@ public abstract class State {
      * @param manager
      * @param context
      */
-    public State(StateManager manager, HashMap<String, Object> context) {
+    public State(StateManager manager, Map<String, Object> context) {
         // Call the base constructor before adding functionality
         this(manager);
 

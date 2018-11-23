@@ -5,9 +5,13 @@ public class Player {
     String username;
     String gameCode;
 
-    public Player(String userID, String username, String gameCode) {
+    public Player(String userID, String username) {
         this.userID = userID;
         this.username = username;
+    }
+
+    public Player(String userID, String username, String gameCode) {
+        this(userID, username);
         this.gameCode = gameCode;
     }
 
