@@ -17,7 +17,8 @@ public class NewHostServlet extends ServletTemplate {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String lobbyID = gameManager.newLobby();
         GameLobby lobby = gameManager.getLobby(lobbyID);
-        View view = lobby.getView(null);
+        View view = lobby.getView(null, webRootPath);
+
         boolean successResponse = view.respond(response.getWriter());
 
         if(!successResponse){

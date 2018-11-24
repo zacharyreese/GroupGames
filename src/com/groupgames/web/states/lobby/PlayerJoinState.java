@@ -2,11 +2,12 @@ package com.groupgames.web.states.lobby;
 
 import com.groupgames.web.core.Player;
 import com.groupgames.web.game.*;
-import com.groupgames.web.game.view.JsonView;
+import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
 import com.groupgames.web.states.kah.KahStartState;
 import com.groupgames.web.states.lobby.actions.*;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,15 +29,20 @@ public class PlayerJoinState extends State {
     }
 
     @Override
-    public View getView(String uid) {
+    public View getView(String uid, String webRootPath) {
         View view = null;
 
         // Handle host view
         if(uid == null) {
-            String gameCode = (String) getContext().get(GAME_CODE_TAG);
-            HashMap<String, String> jsonData = new HashMap<>();
-            jsonData.put("gamecode", gameCode);
-            view = new JsonView(jsonData);
+            HashMap<String, Object> templateData = new HashMap<>();
+            templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
+            templateData.put("users", getContext().get(USERS_TAG));
+
+            try {
+                view = new TemplateView(webRootPath,"lobby.ftl", templateData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         return view;

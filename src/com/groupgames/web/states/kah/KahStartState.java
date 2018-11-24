@@ -19,7 +19,7 @@ public class KahStartState extends State {
     }
 
     @Override
-    public View getView(String uid) {
+    public View getView(String uid, String webRootPath) {
         return null;
     }
 

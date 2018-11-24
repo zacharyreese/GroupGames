@@ -57,7 +57,7 @@ public abstract class State {
      * @param uid user ID performing the action
      * @return current View for the respective used
      */
-    public abstract View getView(String uid);
+    public abstract View getView(String uid, String webRootPath);
 
     /**
      * Perform an action by a user in the lobby. It is up to the implementation to verify the GameAction is valid for

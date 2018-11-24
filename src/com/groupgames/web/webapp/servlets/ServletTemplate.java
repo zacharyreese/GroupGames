@@ -1,6 +1,7 @@
 package com.groupgames.web.webapp.servlets;
 
 import com.groupgames.web.core.DBManager;
+import com.groupgames.web.core.FreemarkerManager;
 import com.groupgames.web.webapp.AppContextListener;
 import com.groupgames.web.webapp.ServletError;
 import freemarker.template.Configuration;
@@ -17,17 +18,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ServletTemplate extends HttpServlet {
-    DBManager dbMgr;
-    Configuration ftlConfig;
+    protected DBManager dbMgr;
+    protected String webRootPath;
 
     public void init(ServletConfig servletconfig) throws ServletException {
         super.init(servletconfig);
 
         ServletContext ctx = servletconfig.getServletContext();
 
+        this.webRootPath = ctx.getRealPath("/");
+
         try {
             this.dbMgr = (DBManager)     ctx.getAttribute(AppContextListener.DB_MNGR_KEY);
-            this.ftlConfig = (Configuration) ctx.getAttribute(AppContextListener.FTL_CONFIG_KEY);
         } catch (ClassCastException e) {
             System.err.println("Failed to load required modules from webapp context");
             e.printStackTrace();
@@ -36,7 +38,7 @@ public class ServletTemplate extends HttpServlet {
 
     void respondWithTemplate(HttpServletResponse resp, String templatePath, Map<String, Object> templateData) {
         try {
-            Template template = ftlConfig.getTemplate(templatePath);
+            Template template = FreemarkerManager.getInstance(webRootPath).getTemplate(templatePath);
 
             setBasicHeaders(resp);
             template.process(templateData, resp.getWriter());

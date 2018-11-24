@@ -35,8 +35,8 @@ public class GameLobby implements StateManager {
      *
      * @param uid user ID of the user requesting a state update. Null indicates host
      */
-    public synchronized View getView(String uid) {
-        return currentState.getView(uid);
+    public synchronized View getView(String uid, String webRootPath) {
+        return currentState.getView(uid, webRootPath);
     }
 
     /**
