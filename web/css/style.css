@@ -1,0 +1,159 @@
+html,
+body {
+    width: 100%;
+    height: 100%;
+    font-weight: bold;
+    background-color: blue;
+    color: white
+}
+.main{
+}
+::placeholder{
+    color: white;
+}
+
+.myGrid{
+    display: grid;
+    grid-template-columns: 20% auto 20%;
+    grid-template-rows: 30% auto 20%;
+    height: 100%;
+    width: 100%;
+}
+
+.main-child{
+    margin: 5px;
+}
+
+.main input{
+    width: 90%;
+}
+
+.main button{
+    padding: 5px;
+    width: 75%;
+}
+
+.item-a{
+    grid-row-start: 1;
+    grid-row-end:2;
+    grid-column-start:2;
+    grid-column-end: 3;
+    place-self: center;
+    font-size: 5vw;
+}
+
+.item-b{
+    grid-row-start: 2;
+    grid-row-end:3;
+    grid-column-start:2;
+    grid-column-end: 3;
+    min-height: 200px;
+    text-align: center;
+    font-size: 3vw;
+}
+
+.lobbyGrid{
+    display: grid;
+    grid-template-columns: 20% auto 20%;
+    grid-template-rows: 10% 60% 20% auto; 
+    height: 100%;
+    width: 100%;
+}
+
+.lbyuserContainer{
+    overflow-y: auto;
+    grid-row-start: 2;
+    grid-row-end:3;
+    grid-column-start:2;
+    grid-column-end: 3;
+    height: inherit;
+    width: inherit;
+    
+}
+
+.user{
+    font-size:3vw;
+    min-height: 40px;
+    text-align: center;  
+}
+.lbyGridBtn{
+    grid-row-start: 3;
+    grid-row-end:4;
+    grid-column-start:2;
+    grid-column-end: 3;  
+    place-self: center;
+    
+}
+.lbyuserxbtn{
+    font-size:1.9vw;
+    width:6%;
+}
+
+.lbybtn{
+    font-size: 3vw; 
+}
+.gtbtn{
+    position:fixed;
+    height: 10%;
+    width: 10%;
+   
+}
+
+.gtbtn2{
+    position:fixed;
+    height: 10%;
+    width: 10%;
+    left:10%;
+}
+
+.hostgrid{
+    display: grid;
+    grid-template-columns: 30% 40% 30%;
+    grid-template-rows: 10% 60% 20%; 
+    height: 100%;
+    width: 100%;
+}
+
+.host-card{
+    grid-row-start: 2;
+    grid-row-end:3;
+    grid-column-start:2;
+    grid-column-end: 3;  
+    place-self: center;
+    height: inherit;
+}
+
+.blackcard{
+    text-align: center;
+    background-color: black;
+    border: 5px solid white;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 20px;
+    color: white;
+    height: inherit;
+    font-size: 3vw;
+
+    
+}
+
+.score-container{
+    grid-row-start: 2;
+    grid-row-end:3;
+    grid-column-start:1;
+    grid-column-end: 2;  
+    place-self: center;
+    font-size: 3vw;
+}
+
+.timerbtn{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position:fixed;
+    right:0%;
+    bottom:0%;
+    height:10%;
+    width: 10%;
+    font-size: 3vw;
+}
