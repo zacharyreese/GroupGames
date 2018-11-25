@@ -5,7 +5,7 @@ import com.groupgames.web.game.State;
 import com.groupgames.web.game.StateManager;
 import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
-import com.groupgames.web.states.lobby.actions.BeginGameAction;
+import com.groupgames.web.states.kah.actions.BeginGameAction;
 
 
 import java.io.IOException;

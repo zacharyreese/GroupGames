@@ -1,4 +1,4 @@
-package com.groupgames.web.states.lobby.actions;
+package com.groupgames.web.states.kah.actions;
 
 import com.groupgames.web.game.GameAction;
 
