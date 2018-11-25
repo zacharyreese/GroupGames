@@ -1,44 +1,49 @@
 package com.groupgames.web.webapp.servlets;
 
+import com.groupgames.web.core.GameManager;
+import com.groupgames.web.core.Player;
 import com.groupgames.web.game.GameLobby;
 import com.groupgames.web.game.view.View;
-import com.groupgames.web.webapp.ServletError;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet(name = "JoinServlet", urlPatterns = "/game/play/join")
-public class JoinServlet extends GameBaseServlet {
+public class JoinServlet extends ServletTemplate {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession clientSession = request.getSession();
+        GameManager gameManager = GameManager.getInstance();
+        Session websocket;
+        PrintWriter out = response.getWriter();
+        String gameCode = request.getParameter("lobbyCode");
+        String username = request.getParameter("userName");
+        String uid = String.valueOf((int)(Math.random() * 100000));
+        //String userID = playerSession.getId();
+        Player player = null;
 
-        String gameCode = request.getParameter("gamecode");
-        String username = request.getParameter("username");
+        if(gameCode.length() != 0 && username.length() != 0) { //Create player object and pass player to host to be added to ArrayList of players (Could be changed to add to DB)
+            player = new Player(username, gameCode);
+            if(gameManager.getLobby(player.getGameCode()) != null) {
+                GameLobby lobby = gameManager.getLobby(player.getGameCode());
+                lobby.addUser(uid, player.getUsername());
+                View view = lobby.getView(uid, webRootPath);
 
-        if (gameCode == null || username == null) {
-            respondWithError(response, "error.ftl", ServletError.MALFORMED_REQUEST);
-            return;
+                boolean successResponse = view.respond(response.getWriter());
+            }
+            //player.registerWebsocket(websocket.getOpenSessions());
+            /*playerSession.setAttribute("Player", player);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/game/host");
+            dispatcher.forward(request, response);*/
+        } else {
+            out.println("Enter a username and a game code");
         }
-
-        GameLobby lobby = gameManager.getLobby(gameCode);
-        if (lobby == null){
-            respondWithError(response, "error.ftl", ServletError.RESOURCE_NOT_FOUND);
-            return;
-        }
-
-        if (!lobby.addUser(clientSession.getId(), username)){
-            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/game/play"));
-            return;
-        }
-
-        // Set the gameCode for the session so it doesnt have to be looked up by the PlayServlet
-        clientSession.setAttribute("gamecode", gameCode);
-        // Redirect to the play servlet to get the client's view
-        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/game/play"));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

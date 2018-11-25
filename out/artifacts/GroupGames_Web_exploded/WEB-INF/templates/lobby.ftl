@@ -12,15 +12,17 @@
         }
 
         /*document.getElementById("button").addEventListener("onclick", function (event) {
-                ws.send(event.target.value); //Will dent the websocket request to the endpoint
+                ws.send(event.target.value); //Will send the websocket request to the endpoint
         });*/
 
     </script>
    
 </head>
 <body>
+    <div id="buttons">
     <button class="btn badge-primary font-weight-bold border border-white gtbtn lbybtn">GT</button>
     <button class="btn badge-primary font-weight-bold border border-white gtbtn2 lbybtn">GT</button>
+    </div>
     <div class=" bg-secondary lobbyGrid">
         <p>${gamecode}</p>
         <div class="lbyuserContainer">
@@ -30,10 +32,6 @@
         </div> 
         
         <button type="submit" class="btn badge-pill badge-primary font-weight-bold lbyGridBtn border border-white lbybtn">Start Game</button>
-<<<<<<< .merge_file_a07604
-        
-=======
->>>>>>> .merge_file_a03916
     </div>
 
     <script type="application/javascript" src="/GroupGames_Web_exploded/scripts/jquery-3.3.1.min.js"></script>
