@@ -1,5 +1,10 @@
 package com.groupgames.web.webapp.servlets.Websockets;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
+import com.groupgames.web.core.GameManager;
+import com.groupgames.web.game.GameLobby;
+
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -21,20 +26,24 @@ public class PlayEndpoint {
 
     @OnMessage
     public void handleMessage(String message, Session session) throws IOException {
-        String userID = session.getId();
-        if(usernames.containsKey(userID)) {
-            String username = usernames.get(userID);
-            for(Session peer : session.getOpenSessions()) {
-                peer.getBasicRemote().sendText("(" + username + "): " + message); //Message will be command for servlet
-            }
-        } else {
-            usernames.put(userID, message);
-            session.getBasicRemote().sendText("(" + message + "): has connected!"); //String for your client connection
-            for (Session peer : session.getOpenSessions()) {
-                if(!peer.getId().equals(userID)) {
-                    peer.getBasicRemote().sendText("(" + message + "): has connected!"); //String for others client connection
-                }
-            }
+        Map<String, String> parsedRegisterMessage;
+        try {
+            parsedRegisterMessage = new Gson().fromJson(message, new HashMap<String, String>().getClass());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        String userID = parsedRegisterMessage.get("player_id");
+        String lobbyID = parsedRegisterMessage.get("gamecode");
+        if (userID == null || lobbyID == null) {
+            // TODO : failed to register user
+            return;
+        }
+
+        GameLobby lobby = GameManager.getInstance().getLobby(lobbyID);
+        if (!lobby.registerWebsocket(userID, session)) {
+            // TODO : handle failed websocket register
         }
     }
 

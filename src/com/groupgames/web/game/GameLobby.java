@@ -17,6 +17,7 @@ public class GameLobby implements StateManager {
 
     private State currentState;
     private Map<String, Player> users;
+    private Session hostWebsocket;
 
     public GameLobby(String gameCode) {
         this.gameCode = gameCode;
@@ -69,10 +70,20 @@ public class GameLobby implements StateManager {
         return false;
     }
 
-    public synchronized void registerWebsocket(String id, Session peer) {
-        Player user = users.get(id);
-        if(user != null)
-            user.registerWebsocket(peer);
+    public synchronized boolean registerWebsocket(String id, Session websocket) {
+        // Null ID == host
+        if (id == null){
+            hostWebsocket = websocket;
+        } else {
+            // Attach websocket to specific player
+            Player user = users.get(id);
+            if (user != null) {
+                user.registerWebsocket(websocket);
+                return true;
+            }
+        }
+
+        return false;
     }
 
 
