@@ -19,4 +19,8 @@ public class JsonView implements View {
         this.gson.toJson(jsonData, out);
         return true;
     }
+
+    public String toString(){
+        return this.gson.toJson(jsonData);
+    }
 }
