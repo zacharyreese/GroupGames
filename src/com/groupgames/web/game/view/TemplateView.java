@@ -20,6 +20,7 @@ public class TemplateView implements View {
      * @param templateData data to be inserted into the template
      */
     public TemplateView(String webRootPath, String templatePath, Object templateData) throws IOException {
+
         this.webRootPath = webRootPath;
         this.templatePath = templatePath;
         this.templateData = templateData;

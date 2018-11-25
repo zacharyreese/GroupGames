@@ -20,7 +20,9 @@
         </div> 
         
         <button type="submit" class="btn badge-pill badge-primary font-weight-bold lbyGridBtn border border-white lbybtn">Start Game</button>
-    
+        <form class="main item-b" action="game/host/new" method="post">
+            <button type="submit" class="main-child badge badge-pill badge-primary">Host Lobby</button>
+        </form>
     </div>
 
 

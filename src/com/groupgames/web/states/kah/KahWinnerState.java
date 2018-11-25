@@ -5,8 +5,9 @@ import com.groupgames.web.game.State;
 import com.groupgames.web.game.StateManager;
 import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
-import com.groupgames.web.states.lobby.actions.BeginGameAction;
 
+import com.groupgames.web.states.lobby.actions.QuitAction;
+import com.groupgames.web.states.lobby.actions.TimerAction;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -15,9 +16,8 @@ import java.util.Map;
 import static com.groupgames.web.states.lobby.PlayerJoinState.GAME_CODE_TAG;
 import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 
-public class KahStartState extends State {
-
-    public KahStartState(StateManager manager, Map<String, Object> context) {
+public class KahWinnerState extends State {
+    public KahWinnerState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
     }
 
@@ -30,33 +30,36 @@ public class KahStartState extends State {
     public View getView(String uid, String webRootPath) {
         View view = null;
 
-        // Handle start view
+        // Handle winner view
         if(uid == null) {
             HashMap<String, Object> templateData = new HashMap<>();
             templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
             templateData.put("users", getContext().get(USERS_TAG));
 
             try {
-                view = new TemplateView(webRootPath,"startgame.ftl", templateData);
+                view = new TemplateView(webRootPath,"winner.ftl", templateData);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return view;
-    }
+        return view;    }
 
     @Override
     public void doAction(String uid, GameAction action) {
         Map<String, Object> context = this.getContext();
 
         switch (action.getType()) {
-            case "begin":
-                // Handles begin game action
-                BeginGameAction beginGameAction = new BeginGameAction(action);
+            case "timer":
+                // Handle start game action
+                TimerAction timer = new TimerAction(action);
                 manager.setState(new KahSubmitState(manager, context));
                 break;
+            case "quit":
+                // Handle options change
+                QuitAction quit = new QuitAction(action);
+                manager.setState(new KahStartState(manager, context));
 
+                break;
         }
     }
-
 }
