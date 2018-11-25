@@ -1,13 +1,17 @@
 package com.groupgames.web.core;
 
+import javax.websocket.Session;
+import java.io.IOException;
+
 public class Player {
     String userID;
     String username;
     String gameCode;
+    Session websocket;
 
-    public Player(String userID, String username) {
-        this.userID = userID;
+    public Player(String username, String gameCode) {
         this.username = username;
+        this.gameCode = gameCode;
     }
 
     public Player(String userID, String username, String gameCode) {
@@ -27,4 +31,23 @@ public class Player {
         return this.gameCode;
     }
 
+    public void registerWebsocket(Session websocket) {
+        this.websocket = websocket;
+    }
+
+    public boolean writeUpdate(String updateText) {
+
+        if (websocket != null) {
+            try {
+                websocket.getBasicRemote().sendText(updateText);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        // Failed to write update. User hasn't registered websocket connection yet
+        return false;
+    }
 }

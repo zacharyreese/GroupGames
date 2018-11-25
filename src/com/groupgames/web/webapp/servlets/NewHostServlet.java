@@ -17,6 +17,7 @@ public class NewHostServlet extends GameBaseServlet {
         HttpSession clientSession = request.getSession();
 
         String lobbyID = gameManager.newLobby();
+        System.out.println("LobbyID: " + lobbyID);
         GameLobby lobby = gameManager.getLobby(lobbyID);
         View view = lobby.getView(null, webRootPath);
 
