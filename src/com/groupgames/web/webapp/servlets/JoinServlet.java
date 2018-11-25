@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(name = "JoinServlet", urlPatterns = "/game/play/join")
-public class JoinServlet extends ServletTemplate {
+public class JoinServlet extends GameBaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         GameManager gameManager = GameManager.getInstance();
         Session websocket;
