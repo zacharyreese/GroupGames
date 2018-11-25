@@ -18,17 +18,23 @@ public class HostServlet extends ServletTemplate {
         PrintWriter out = response.getWriter();
         HttpSession hostSession = request.getSession();
         HttpSession playerSession = request.getSession();
-        String gameSessionID = (String)hostSession.getAttribute("gameSessionID"); //Get attributes from /game/host/new
+        /*String gameSessionID = (String)hostSession.getAttribute("gameSessionID"); //Get attributes from /game/host/new
+        System.out.println(gameSessionID);
         String gameCode = (String)hostSession.getAttribute("gameCode");
+        System.out.println(gameCode);
         Host host = (Host)hostSession.getAttribute("Host"); //Get host from /game/host/new
         out.println("Session ID: " + host.getLobbyID());
-        out.println("Game code: " + host.getGameCode());
-        Player player = null;
+        out.println("Game code: " + host.getGameCode());*/
+        Player player = (Player)hostSession.getAttribute("Player");
+        System.out.println(player.getUserID());
+        out.print(player.getUsername());
+        System.out.println(player.getGameCode());
+        System.out.println(player.getUsername());
 
-        if((Player)playerSession.getAttribute("Player") != null) {
+       /* if((Player)playerSession.getAttribute("Player") != null) {
             player = (Player)playerSession.getAttribute("Player"); //Get player from /game/play/join
             host.addUser(player); //Add player to player ArrayList
-        }
+        }*/
 
         /*this.getServletConfig().getServletContext().setAttribute("Host", host);
         request.getRequestDispatcher("/game/play/join").forward(request, response);*/

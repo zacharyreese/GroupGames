@@ -7,7 +7,6 @@ import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
 
 import com.groupgames.web.states.kah.actions.QuitAction;
-import com.groupgames.web.states.kah.actions.TimerAction;
 
 import java.io.IOException;
 import java.util.HashMap;

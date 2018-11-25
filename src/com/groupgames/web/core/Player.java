@@ -9,9 +9,9 @@ public class Player {
     String gameCode;
     Session websocket;
 
-    public Player(String userID, String username) {
-        this.userID = userID;
+    public Player(String username, String gameCode) {
         this.username = username;
+        this.gameCode = gameCode;
     }
 
     public Player(String userID, String username, String gameCode) {
