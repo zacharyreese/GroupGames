@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.websocket.Session;
 import java.io.IOException;
 
 @WebServlet(name = "JoinServlet", urlPatterns = "/game/play/join")
@@ -32,18 +31,14 @@ public class JoinServlet extends GameBaseServlet {
         }
 
         if (!lobby.addUser(clientSession.getId(), username)){
-            // TODO: This redirect is broken. Should redirect to /game/play with params for lobby ID and user ID
-            response.sendRedirect("../");
-        }
-
-        View view = lobby.getView(clientSession.getId(), webRootPath);
-        if (view == null || !view.respond(response.getWriter())) {
-            // TODO: Handle write failure
+            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/game/play"));
+            return;
         }
 
         // Set the gameCode for the session so it doesnt have to be looked up by the PlayServlet
         clientSession.setAttribute("gamecode", gameCode);
-        //response.sendRedirect("../");
+        // Redirect to the play servlet to get the client's view
+        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/game/play"));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

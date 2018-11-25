@@ -19,17 +19,11 @@ public class NewHostServlet extends GameBaseServlet {
         String lobbyID = gameManager.newLobby();
         System.out.println("LobbyID: " + lobbyID);
         GameLobby lobby = gameManager.getLobby(lobbyID);
-        View view = lobby.getView(null, webRootPath);
-
-        boolean successResponse = view.respond(response.getWriter());
-
-        if(!successResponse){
-            // TODO: Handle write failure
-        }
 
         // Set the gameCode for the session so it doesnt have to be looked up by the HostServlet
         clientSession.setAttribute("gamecode", lobbyID);
-        //response.sendRedirect("../");
+        // Redirect to the host servlet to get the client's view
+        response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/game/host"));
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

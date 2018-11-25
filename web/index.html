@@ -9,12 +9,12 @@
         <div class="header font-weight-bold text-center text-white item-a">
             <p class="header-child">SEGA</p>
         </div>
-        <form class="main item-b">
-            <input type="text" class="text-center main-child rounded bg-primary text-white font-weight-bold" name="userName" placeholder="User Name:">
-            <input type="text" class="text-center main-child rounded bg-primary text-white font-weight-bold" name="lobbyName" placeholder="Lobby Name:">
+        <form action="game/play/join" method="post" class="main item-b">
+            <input type="text" class="text-center main-child rounded bg-primary text-white font-weight-bold" name="username" placeholder="User Name:">
+            <input type="text" class="text-center main-child rounded bg-primary text-white font-weight-bold" name="gamecode" placeholder="Lobby ID:">
             <button type="submit" class="main-child badge badge-pill badge-primary">Join Lobby</button>
         </form>
-        <form class="main  btn-host">
+        <form action="game/host/new" method="post" class="main  btn-host">
             <button type="submit" class="main-child badge badge-pill badge-primary ">Host Lobby</button>
         </form>
     </div>
