@@ -19,15 +19,12 @@ public class GameManager {
 
     // Map of game lobbies to their associated ID
     private Map<String, GameLobby> lobbies;
-    //Instance of Random used for generating UIDs
-    private Random random;
 
     /**
      * Singleton GameManager instance
      * Initialize the lobby map
      */
     private GameManager(){
-        random = new Random();
         lobbies = new HashMap<>();
     }
 
@@ -52,7 +49,7 @@ public class GameManager {
 
         do {
             // TODO: this has a possibility of hanging forever if all keys are taken
-            lobbyID = genUid(UID_SIZE);
+            lobbyID = GameManager.genUid(UID_SIZE);
         } while (lobbies.containsKey(lobbyID));
 
         // Register the new lobby with the generated ID
@@ -76,7 +73,6 @@ public class GameManager {
      * Close a lobby and remove it from the map of active lobbies
      *
      * @param id String id of the game lobby to close
-     * @return operation successful
      */
     public synchronized void closeLobby(String id) {
         lobbies.remove(id);
@@ -88,11 +84,11 @@ public class GameManager {
      * @param byteCount number of bytes to generate for the UID (Hex output will be 2x this value)
      * @return Hex string representation of each byte concatenated
      */
-    private String genUid(int byteCount){
+    public static String genUid(int byteCount){
         StringBuffer strOut = new StringBuffer();
         byte[] uidBytes = new byte[byteCount];
 
-        random.nextBytes(uidBytes);
+        new Random().nextBytes(uidBytes);
 
         for(byte b : uidBytes)
             strOut.append(String.format("%02X", b));

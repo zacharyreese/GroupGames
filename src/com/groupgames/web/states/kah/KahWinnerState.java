@@ -50,7 +50,7 @@ public class KahWinnerState extends State {
         switch (action.getType()) {
             case "timer":
                 // Handle start game action
-                TimerAction timer = new TimerAction(action);
+                //TimerAction timer = new TimerAction(action);
                 manager.setState(new KahSubmitState(manager, context));
                 break;
             case "quit":

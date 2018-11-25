@@ -1,5 +1,6 @@
 package com.groupgames.web.game;
 
+import com.groupgames.web.core.GameManager;
 import com.groupgames.web.core.Player;
 import com.groupgames.web.game.view.View;
 import com.groupgames.web.states.lobby.PlayerJoinState;
@@ -56,10 +57,16 @@ public class GameLobby implements StateManager {
      *
      * @param uid user ID of the user to be added
      * @param name custom name entered by the user
+     *
+     * @return operation successful? false indicates user ID already exists
      */
-    public synchronized void addUser(String uid, String name) {
-        Player newUser = new Player(uid, name);
-        users.put(uid, newUser);
+    public synchronized boolean addUser(String uid, String name) {
+        if (!users.containsKey(uid)) {
+            Player newUser = new Player(uid, name);
+            users.put(uid, newUser);
+            return true;
+        }
+        return false;
     }
 
     public synchronized void registerWebsocket(String id, Session peer) {
