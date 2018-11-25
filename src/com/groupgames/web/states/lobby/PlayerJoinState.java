@@ -32,17 +32,19 @@ public class PlayerJoinState extends State {
     public View getView(String uid, String webRootPath) {
         View view = null;
 
-        // Handle host view
-        if(uid == null) {
-            HashMap<String, Object> templateData = new HashMap<>();
-            templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
-            templateData.put("users", getContext().get(USERS_TAG));
+        HashMap<String, Object> templateData = new HashMap<>();
+        templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
+        templateData.put("users", getContext().get(USERS_TAG));
 
-            try {
-                view = new TemplateView(webRootPath,"lobby.ftl", templateData);
-            } catch (IOException e) {
-                e.printStackTrace();
+        // Handle host view
+        try {
+            if(uid == null) {
+                view = new TemplateView(webRootPath,"hostLobby.ftl", templateData);
+            } else {
+                view = new TemplateView(webRootPath,"playerLobby.ftl", templateData);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         return view;
