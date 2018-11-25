@@ -4,6 +4,7 @@ import com.groupgames.web.core.Player;
 import com.groupgames.web.game.view.View;
 import com.groupgames.web.states.lobby.PlayerJoinState;
 
+import javax.websocket.Session;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,6 +60,12 @@ public class GameLobby implements StateManager {
     public synchronized void addUser(String uid, String name) {
         Player newUser = new Player(uid, name);
         users.put(uid, newUser);
+    }
+
+    public synchronized void registerWebsocket(String id, Session peer) {
+        Player user = users.get(id);
+        if(user != null)
+            user.registerWebsocket(peer);
     }
 
 
