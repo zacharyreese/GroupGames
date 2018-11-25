@@ -3,9 +3,17 @@ package com.groupgames.web.states.kah;
 import com.groupgames.web.game.GameAction;
 import com.groupgames.web.game.State;
 import com.groupgames.web.game.StateManager;
+import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
+import com.groupgames.web.states.lobby.actions.BeginGameAction;
 
+
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+
+import static com.groupgames.web.states.lobby.PlayerJoinState.GAME_CODE_TAG;
+import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 
 public class KahStartState extends State {
 
@@ -20,11 +28,35 @@ public class KahStartState extends State {
 
     @Override
     public View getView(String uid, String webRootPath) {
-        return null;
+        View view = null;
+
+        // Handle start view
+        if(uid == null) {
+            HashMap<String, Object> templateData = new HashMap<>();
+            templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
+            templateData.put("users", getContext().get(USERS_TAG));
+
+            try {
+                view = new TemplateView(webRootPath,"startgame.ftl", templateData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return view;
     }
 
     @Override
     public void doAction(String uid, GameAction action) {
+        Map<String, Object> context = this.getContext();
 
+        switch (action.getType()) {
+            case "begin":
+                // Handles begin game action
+                BeginGameAction beginGameAction = new BeginGameAction(action);
+                manager.setState(new KahSubmitState(manager, context));
+                break;
+
+        }
     }
+
 }
