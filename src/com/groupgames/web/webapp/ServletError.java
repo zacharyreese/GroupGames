@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum ServletError {
+    RESOURCE_NOT_FOUND(2, "resource not found"),
     MALFORMED_REQUEST (3, "malformed request"),
     INTERNAL_FAILURE  (-1, "internal error");
 

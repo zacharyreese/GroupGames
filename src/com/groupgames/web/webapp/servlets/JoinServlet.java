@@ -1,35 +1,48 @@
 package com.groupgames.web.webapp.servlets;
 
-import com.groupgames.web.core.Player;
+import com.groupgames.web.game.GameLobby;
+import com.groupgames.web.game.view.View;
+import com.groupgames.web.webapp.ServletError;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet(name = "JoinServlet", urlPatterns = "/game/play/join")
-public class JoinServlet extends HttpServlet {
+public class JoinServlet extends GameBaseServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession playerSession = request.getSession();
-        PrintWriter out = response.getWriter();
-        String gameCode = request.getParameter("gameCode");
-        String username = request.getParameter("username");
-        String userID = playerSession.getId();
-        Player player = null;
+        HttpSession clientSession = request.getSession();
 
-        if(gameCode.length() != 0 && username.length() != 0) { //Create player object and pass player to host to be added to ArrayList of players (Could be changed to add to DB)
-            player = new Player(userID, username, gameCode);
-            playerSession.setAttribute("Player", player);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/game/host");
-            dispatcher.forward(request, response);
-        } else {
-            out.println("Enter a username and a game code");
+        String gameCode = request.getParameter("gamecode");
+        String username = request.getParameter("username");
+
+        if (gameCode == null || username == null) {
+            respondWithError(response, "error.ftl", ServletError.MALFORMED_REQUEST);
+            return;
         }
+
+        GameLobby lobby = gameManager.getLobby(gameCode);
+        if (lobby == null){
+            respondWithError(response, "error.ftl", ServletError.RESOURCE_NOT_FOUND);
+            return;
+        }
+
+        if (!lobby.addUser(clientSession.getId(), username)){
+            // TODO: This redirect is broken. Should redirect to /game/play with params for lobby ID and user ID
+            response.sendRedirect("../");
+        }
+
+        View view = lobby.getView(clientSession.getId(), webRootPath);
+        if (view == null || !view.respond(response.getWriter())) {
+            // TODO: Handle write failure
+        }
+
+        // Set the gameCode for the session so it doesnt have to be looked up by the PlayServlet
+        clientSession.setAttribute("gamecode", gameCode);
+        //response.sendRedirect("../");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
