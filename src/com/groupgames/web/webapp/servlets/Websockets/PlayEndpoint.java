@@ -16,7 +16,7 @@ public class PlayEndpoint {
 
     @OnOpen
     public void open(Session session) throws IOException {
-        session.getBasicRemote().sendText("(Server): You are connected");
+        session.getBasicRemote().sendText("(Server): You are connected as " + ((int)(Math.random() * 10000)));
     }
 
     @OnMessage
@@ -25,7 +25,7 @@ public class PlayEndpoint {
         if(usernames.containsKey(userID)) {
             String username = usernames.get(userID);
             for(Session peer : session.getOpenSessions()) {
-                peer.getBasicRemote().sendText(message); //Message will be command for servlet
+                peer.getBasicRemote().sendText("(" + username + "): " + message); //Message will be command for servlet
             }
         } else {
             usernames.put(userID, message);

@@ -36,6 +36,18 @@ public class PlayerJoinState extends State {
         if(uid == null) {
             HashMap<String, Object> templateData = new HashMap<>();
             templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
+            System.out.println(getContext().get(GAME_CODE_TAG));
+            templateData.put("users", getContext().get(USERS_TAG));
+
+            try {
+                view = new TemplateView(webRootPath,"lobby.ftl", templateData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            HashMap<String, Object> templateData = new HashMap<>();
+            templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
+            System.out.println(getContext().get(GAME_CODE_TAG));
             templateData.put("users", getContext().get(USERS_TAG));
 
             try {

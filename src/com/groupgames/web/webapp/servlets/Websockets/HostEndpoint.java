@@ -24,9 +24,9 @@ public class HostEndpoint {
         String userID = session.getId();
         if(usernames.containsKey(userID)) {
             String username = usernames.get(userID);
-            for(Session peer : session.getOpenSessions()) {
-                peer.getBasicRemote().sendText(message); //Sent message will be command for servlet
-            }
+                for(Session peer : session.getOpenSessions()) {
+                    peer.getBasicRemote().sendText(message); //Sent message will be command for servlet
+        }
         } else {
             usernames.put(userID, message);
             session.getBasicRemote().sendText("(" + message + "): has connected!"); //String for your client connection
