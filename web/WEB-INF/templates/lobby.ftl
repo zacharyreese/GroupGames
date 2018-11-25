@@ -12,15 +12,17 @@
         }
 
         /*document.getElementById("button").addEventListener("onclick", function (event) {
-                ws.send(event.target.value); //Will dent the websocket request to the endpoint
+                ws.send(event.target.value); //Will send the websocket request to the endpoint
         });*/
 
     </script>
    
 </head>
 <body>
+    <div id="buttons">
     <button class="btn badge-primary font-weight-bold border border-white gtbtn lbybtn">GT</button>
     <button class="btn badge-primary font-weight-bold border border-white gtbtn2 lbybtn">GT</button>
+    </div>
     <div class=" bg-secondary lobbyGrid">
         <p>${gamecode}</p>
         <div class="lbyuserContainer">

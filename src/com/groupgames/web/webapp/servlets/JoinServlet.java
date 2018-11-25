@@ -24,6 +24,7 @@ public class JoinServlet extends ServletTemplate {
         PrintWriter out = response.getWriter();
         String gameCode = request.getParameter("lobbyCode");
         String username = request.getParameter("userName");
+        String uid = String.valueOf((int)(Math.random() * 100000));
         //String userID = playerSession.getId();
         Player player = null;
 
@@ -31,8 +32,8 @@ public class JoinServlet extends ServletTemplate {
             player = new Player(username, gameCode);
             if(gameManager.getLobby(player.getGameCode()) != null) {
                 GameLobby lobby = gameManager.getLobby(player.getGameCode());
-                lobby.addUser("1234", player.getUsername());
-                View view = lobby.getView("1234", webRootPath);
+                lobby.addUser(uid, player.getUsername());
+                View view = lobby.getView(uid, webRootPath);
 
                 boolean successResponse = view.respond(response.getWriter());
             }
