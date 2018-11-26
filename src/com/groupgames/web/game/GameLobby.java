@@ -1,6 +1,5 @@
 package com.groupgames.web.game;
 
-import com.groupgames.web.core.GameManager;
 import com.groupgames.web.core.Player;
 import com.groupgames.web.game.view.View;
 import com.groupgames.web.states.lobby.PlayerJoinState;

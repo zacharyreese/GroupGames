@@ -8,6 +8,8 @@ import com.groupgames.web.game.view.JsonView;
 import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
 import com.groupgames.web.states.kah.actions.QuitAction;
+import com.groupgames.web.states.lobby.PlayerJoinState;
+import com.groupgames.web.states.kah.actions.QuitAction;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -77,7 +79,7 @@ public class KahWinnerState extends State {
             case "quit":
                 // Handle options change
                 QuitAction quit = new QuitAction(action);
-                manager.setState(new KahStartState(manager, context));
+                manager.setState(new PlayerJoinState(manager, context));
 
                 break;
         }

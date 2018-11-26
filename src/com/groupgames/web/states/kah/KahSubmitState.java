@@ -64,7 +64,7 @@ public class KahSubmitState extends State {
             templateData.put("users", getContext().get(USERS_TAG));
 
             try {
-                view = new TemplateView(webRootPath,"submit.ftl", templateData);
+                view = new TemplateView(webRootPath,"playerHand.ftl", templateData);
             } catch (IOException e) {
                 e.printStackTrace();
             }
