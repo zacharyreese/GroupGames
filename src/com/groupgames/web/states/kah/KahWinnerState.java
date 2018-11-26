@@ -7,6 +7,7 @@ import com.groupgames.web.game.StateManager;
 import com.groupgames.web.game.view.JsonView;
 import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
+import com.groupgames.web.states.kah.actions.QuitAction;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -75,11 +76,6 @@ public class KahWinnerState extends State {
         Map<String, Object> context = this.getContext();
 
         switch (action.getType()) {
-            case "timer":
-                // Handle start game action
-                TimerAction timer = new TimerAction(action);
-                manager.setState(new KahSubmitState(manager, context));
-                break;
             case "quit":
                 // Handle options change
                 QuitAction quit = new QuitAction(action);
