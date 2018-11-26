@@ -7,7 +7,7 @@ public class Player {
     String userID = String.valueOf((int)(Math.random() * 1000000));
     String username;
     String gameCode;
-    Session websocket;
+    transient Session websocket;
 
     public Player(String username, String gameCode) {
         this.gameCode = gameCode;

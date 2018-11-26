@@ -28,18 +28,18 @@ public class KahVoteState extends State {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                    if (countdownTimer == 0) {
-                        timer.cancel();
-                        manager.setState(new KahWinnerState(manager, context));
-                    }
-                    update();
-                    countdownTimer--;
+            if (countdownTimer == 0) {
+                timer.cancel();
+                manager.setState(new KahWinnerState(manager, context));
+            }
+            update();
+            countdownTimer--;
             }
         }, 0, 1000);
     }
 
     @Override
-    public void update() {
+    public synchronized void update() {
         HashMap<String, Object> JSONData = new HashMap<>();
         JSONData.put("timer", countdownTimer);
         JsonView json = new JsonView(JSONData);
