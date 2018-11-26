@@ -46,7 +46,7 @@ public class CardManager {
         return blackCardsList;
     }
 
-    public static Card getRandBlackCard() throws SQLException {
+    public static Card getRandBlackCard() {
         String SQL = "SELECT * FROM kah_blackcard ORDER BY RAND() LIMIT 1";
         Card card = null;
 

@@ -40,11 +40,7 @@ public class KahStartState extends State {
                     countdownTimer--;
                 } else {
                     timer.cancel();
-                    try {
-                        manager.setState(new KahSubmitState(manager, context));
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    manager.setState(new KahSubmitState(manager, context));
                 }
             }
         }, 0, 1000);
@@ -60,15 +56,16 @@ public class KahStartState extends State {
         View view = null;
 
         // Handle start view
-            HashMap<String, Object> templateData = new HashMap<>();
-            /*templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
-            templateData.put("users", getContext().get(USERS_TAG));*/
+        HashMap<String, Object> templateData = new HashMap<>();
+        /*templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
+        templateData.put("users", getContext().get(USERS_TAG));*/
 
-            try {
-                view = new TemplateView(webRootPath,"startgame.ftl", templateData);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            view = new TemplateView(webRootPath,"startgame.ftl", templateData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return view;
     }
 
@@ -80,11 +77,7 @@ public class KahStartState extends State {
             case "begin":
                 // Handles begin game action
                 BeginGameAction beginGameAction = new BeginGameAction(action);
-                try {
-                    manager.setState(new KahSubmitState(manager, context));
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                manager.setState(new KahSubmitState(manager, context));
                 break;
 
         }

@@ -127,35 +127,6 @@ public class KahSubmitState extends State {
      * @param users
      * @param playerHands
      */
-    private void topUpHands(HashMap<String, Player> users, Map<String, List<Card>> playerHands) throws SQLException {
-        this.playerHands = playerHands;
-        int counter = 0;
-        int handsize = 0;
-        for(Player player : users.values()){
-            ArrayList<Card> newCards = cardManager.getWhiteCards(HAND_COUNT * users.size());
-            for(int x = 0; x < 5; x++) {
-                playerHands.put(player.getUserID(), newCards.subList(counter, (counter + 5)));
-            }
-            counter += HAND_COUNT;
-
-           /* List<Card> playerHand = playerHands.get(player.getUserID());
-            if(playerHand == null)
-                playerHand = new ArrayList<Card>();
-
-            if(playerHand.size() < HAND_COUNT) {
-                ArrayList<Card> newCards = cardManager.getWhiteCards(HAND_COUNT - playerHand.size());
-                playerHand.addAll(newCards);
-            }*/
-        }
-    }
-
-    /**
-     * Ensure all players have a hand with HAND_COUNT # of cards. If any users dont have a hand, initialize one
-     * and fill it. If they are missing cards, top their hand up with random cards
-     *
-     * @param users
-     * @param playerHands
-     */
     private void topUpHands(HashMap<String, Player> users, Map<String, List<Card>> playerHands){
 
         for(Player player : users.values()){
@@ -168,10 +139,6 @@ public class KahSubmitState extends State {
                 playerHand.addAll(newCards);
             }
         }
-    }
-}
-    public void getBlackCard() {
-
     }
 
     public HashMap<String, String> convertTemplate(List<Card> cards) {
