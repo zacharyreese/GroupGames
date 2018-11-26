@@ -23,6 +23,7 @@ public class KahVoteState extends State {
     GameAction countdown = new GameAction(countdownConstruct);
     Integer countdownTimer = 10;
     private static Timer timer;
+    HashMap<String, String> cardVotes = new HashMap<>();
 
     public KahVoteState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
@@ -32,7 +33,7 @@ public class KahVoteState extends State {
                 synchronized(countdownTimer) {
                     if (countdownTimer == 0) {
                         timer.cancel();
-                        manager.setState(new KahVoteState(manager, context));
+                        manager.setState(new KahWinnerState(manager, context));
                     }
                     countdownTimer--;
                     update();

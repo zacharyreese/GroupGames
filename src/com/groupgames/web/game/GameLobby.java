@@ -65,6 +65,7 @@ public class GameLobby implements StateManager {
         if (!users.containsKey(uid)) {
             Player newUser = new Player(uid, name);
             users.put(uid, newUser);
+            currentState.update();
             return true;
         }
         return false;

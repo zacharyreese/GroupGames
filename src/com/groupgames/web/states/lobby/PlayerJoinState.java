@@ -2,6 +2,7 @@ package com.groupgames.web.states.lobby;
 
 import com.groupgames.web.core.Player;
 import com.groupgames.web.game.*;
+import com.groupgames.web.game.view.JsonView;
 import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
 import com.groupgames.web.states.kah.KahStartState;
@@ -15,24 +16,33 @@ import java.util.Map;
 public class PlayerJoinState extends State {
     public static final String USERS_TAG = "users";
     public static final String GAME_CODE_TAG = "gamecode";
+    HashMap<String, Object> templateData = new HashMap<>();
+    HashMap<String, Player> usersMap;
 
 
     private List<Player> connectedUsers;
 
     public PlayerJoinState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
+        usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
     }
 
     @Override
     public void update() {
-
+        HashMap<String, Object> JSONData = new HashMap<>();
+        JSONData.put("users", usersMap);
+        JsonView json = new JsonView(JSONData);
+        String timerUpdate = json.toString();
+        HashMap<String, Player> usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
+        for(Player p : usersMap.values()) {
+            p.writeUpdate(timerUpdate);
+        }
     }
 
     @Override
     public View getView(String uid, String webRootPath) {
         View view = null;
 
-        HashMap<String, Object> templateData = new HashMap<>();
         templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
         templateData.put("users", getContext().get(USERS_TAG));
 
@@ -66,6 +76,8 @@ public class PlayerJoinState extends State {
             case "kick":
                 // Handle kick action
                 KickAction kickAction = new KickAction(action);
+                usersMap.remove(uid);
+                update();
                 break;
         }
     }

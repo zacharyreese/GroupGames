@@ -34,7 +34,7 @@ public class KahWinnerState extends State {
                 synchronized(countdownTimer) {
                     if (countdownTimer == 0) {
                         timer.cancel();
-                        manager.setState(new KahVoteState(manager, context));
+                        manager.setState(new KahStartState(manager, context));
                     }
                     countdownTimer--;
                     update();

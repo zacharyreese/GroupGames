@@ -25,6 +25,8 @@ public class KahSubmitState extends State {
     GameAction countdown = new GameAction(countdownConstruct);
     Integer countdownTimer = 10;
     private static Timer timer;
+    String submittedCardID;
+    HashMap<String, String> submittedPlayers = new HashMap<>();
 
     public KahSubmitState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
@@ -82,6 +84,7 @@ public class KahSubmitState extends State {
             case "submit":
                 // Handles submit action
                 SubmitAction submitAction = new SubmitAction(action);
+                context.put("submittedCard", submittedCardID);
                 manager.setState(new KahVoteState(manager, context));
                 break;
 
