@@ -3,15 +3,15 @@ package com.groupgames.web.states.kah.actions;
 import com.groupgames.web.game.GameAction;
 
 public class SubmitAction extends GameAction {
-    private static final String PLAYER_UID_TAG = "uid";
+    private static final String CARD_ID_TAG = "cardID";
 
     public SubmitAction(GameAction baseAction) throws IllegalArgumentException {
         super(baseAction);
-        requireField(PLAYER_UID_TAG, String.class);
+        requireField(CARD_ID_TAG, Integer.class);
 
     }
 
-    public String getSelected(){
-        return (String) parsed.get(PLAYER_UID_TAG);
+    public Integer getSelected(){
+        return (Integer) parsed.get(CARD_ID_TAG);
     }
 }

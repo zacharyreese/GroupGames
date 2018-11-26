@@ -30,7 +30,7 @@ public class JoinServlet extends GameBaseServlet {
             return;
         }
 
-        if (!lobby.addUser(clientSession.getId(), username)){
+        if (!lobby.addUser(username, gameCode)){
             response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/game/play"));
             return;
         }

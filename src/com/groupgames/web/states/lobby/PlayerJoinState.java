@@ -1,5 +1,6 @@
 package com.groupgames.web.states.lobby;
 
+import com.groupgames.web.core.GameManager;
 import com.groupgames.web.core.Player;
 import com.groupgames.web.game.*;
 import com.groupgames.web.game.view.JsonView;
@@ -8,6 +9,7 @@ import com.groupgames.web.game.view.View;
 import com.groupgames.web.states.kah.KahStartState;
 import com.groupgames.web.states.lobby.actions.*;
 
+import javax.websocket.Session;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -26,17 +28,19 @@ public class PlayerJoinState extends State {
     public PlayerJoinState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
         usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
+        //forceRefresh();
     }
 
     @Override
     public void update() {
         HashMap<String, Object> JSONData = new HashMap<>();
         JSONData.put("users", usersMap.values());
+        JSONData.put("method", "update");
         JsonView json = new JsonView(JSONData);
-        String timerUpdate = json.toString();
+        String userData = json.toString();
         HashMap<String, Player> usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
         for(Player p : usersMap.values()) {
-            p.writeUpdate(timerUpdate);
+            p.writeUpdate(userData);
         }
     }
 
@@ -46,6 +50,7 @@ public class PlayerJoinState extends State {
 
         templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
         templateData.put("users", getContext().get(USERS_TAG));
+        templateData.put("uid", uid);
 
         // Handle host view
         try {
@@ -57,7 +62,6 @@ public class PlayerJoinState extends State {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return view;
     }
 
@@ -88,12 +92,30 @@ public class PlayerJoinState extends State {
         // Add/Remove from the context before starting the game
 
         switch (selectedGame) {
-            case "kah":
+            case "KaH":
                 manager.setState(new KahStartState(manager, context));
                 return true;
         }
 
         // Failed to match any configured games. Return false to indicate start failure
         return false;
+    }
+
+    private void forceRefresh(){
+        HashMap<String, Object> JSONData = new HashMap<>();
+        JSONData.put("method", "refresh");
+        JsonView json = new JsonView(JSONData);
+        String refreshCommand = json.toString();
+        for(Player p : usersMap.values()) {
+            p.writeUpdate(refreshCommand);
+        }
+       Session hostSession = GameManager.getInstance().getLobby((String)getContext().get("gamecode")).getHostWebsocket();
+        if(hostSession != null) {
+            try {
+                hostSession.getBasicRemote().sendText(refreshCommand);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

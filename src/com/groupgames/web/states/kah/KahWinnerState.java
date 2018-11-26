@@ -21,7 +21,7 @@ import static com.groupgames.web.states.lobby.PlayerJoinState.GAME_CODE_TAG;
 import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 
 public class KahWinnerState extends State {
-    Integer countdownTimer = 10;
+    int countdownTimer = 10;
     private static Timer timer;
 
     public KahWinnerState(StateManager manager, Map<String, Object> context) {
@@ -29,14 +29,12 @@ public class KahWinnerState extends State {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                synchronized(countdownTimer) {
                     if (countdownTimer == 0) {
                         timer.cancel();
                         manager.setState(new KahStartState(manager, context));
                     }
-                    countdownTimer--;
                     update();
-                }
+                    countdownTimer--;
             }
         }, 0, 1000);
     }

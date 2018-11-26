@@ -39,7 +39,7 @@ public class HostServlet extends GameBaseServlet {
         String gameCode = (String) clientSession.getAttribute("gamecode");
         if (gameCode == null) {
             // Redirect user back to homepage
-            response.sendRedirect("../../");
+            response.sendRedirect(request.getContextPath());
             return;
         }
 

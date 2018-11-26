@@ -61,10 +61,10 @@ public class GameLobby implements StateManager {
      *
      * @return operation successful? false indicates user ID already exists
      */
-    public synchronized boolean addUser(String uid, String name) {
-        if (!users.containsKey(uid)) {
-            Player newUser = new Player(uid, name);
-            users.put(uid, newUser);
+    public synchronized boolean addUser(String username, String gameCode) {
+        if (!users.containsKey(username)) {
+            Player newUser = new Player(username, gameCode);
+            users.put(newUser.getUserID(), newUser);
             currentState.update();
             return true;
         }
@@ -85,6 +85,10 @@ public class GameLobby implements StateManager {
         }
 
         return false;
+    }
+
+    public Session getHostWebsocket() {
+        return hostWebsocket;
     }
 
 
