@@ -28,6 +28,7 @@ public class DBManager {
             Class.forName("com.mysql.cj.jdbc.Driver");
 
             conn = DriverManager.getConnection(dbUrl+dbName, username, password);
+            System.out.println("Connected to DB");
 
         } catch (SQLException e) {
             System.err.println("Failed to connect to SQL server");

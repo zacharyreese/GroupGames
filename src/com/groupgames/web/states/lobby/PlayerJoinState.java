@@ -31,7 +31,7 @@ public class PlayerJoinState extends State {
     @Override
     public void update() {
         HashMap<String, Object> JSONData = new HashMap<>();
-        JSONData.put("users", usersMap);
+        JSONData.put("users", usersMap.values());
         JsonView json = new JsonView(JSONData);
         String timerUpdate = json.toString();
         HashMap<String, Player> usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
