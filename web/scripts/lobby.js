@@ -52,11 +52,14 @@ function updateUsers(users, isHost){
 
     users.forEach(function (elem) {
         var userDom = $("<div class=\"user\"></div>");
+        userDom.text(elem.username);
+
         if (isHost){
-            var buttonDom = $("<button data-playerId = \"${user.userID}\" class=\"border border-white btn btn-danger float-right font-weight-bold lbyuserxbtn\">X</button>");
+            var buttonDom = $("<button class=\"border border-white btn btn-danger float-right font-weight-bold lbyuserxbtn\">X</button>");
+            buttonDom.attr("data-playerId", elem.userID)
             userDom.append(buttonDom);
         }
-        userDom.text(elem.username);
+
         userContainer.append(userDom);
     });
 }
