@@ -16,6 +16,7 @@ import java.util.Map;
 public class PlayerJoinState extends State {
     public static final String USERS_TAG = "users";
     public static final String GAME_CODE_TAG = "gamecode";
+    public static final String HOST_WS_TAG = "hostWS";
     HashMap<String, Object> templateData = new HashMap<>();
     HashMap<String, Player> usersMap;
 
