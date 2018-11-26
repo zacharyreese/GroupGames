@@ -7,7 +7,7 @@ function startup() {
         cards[i].addEventListener("click", selectMe);
     }
     document.getElementById("timer").addEventListener("click", submit);
-    document.getElementsByClassName("waitText")[0].style.display = "none";
+    $(".waitText")[0].style.display = "none";
 }
 
 function selectMe() {
@@ -17,25 +17,24 @@ function selectMe() {
 }
 
 function submitted () {
-     document.getElementsByClassName("waitText")[0].style.display = "block";
-     document.getElementsByClassName("cardy")[0].style.display = "none";
+    $(".waitText")[0].style.display = "block";
+    $(".cardy")[0].style.display = "none";
 }
 
 
 function submit() {
     var goldcard = $(".selectedcard").first();
     var submitAction = {
-        "type":"submit", 
+        "type":"submit",
         "cardID":goldcard.attr("data-cardId")
     }
     $.ajax({
-      type: "POST",
-      url: $(".cardy").attr("data-votePlay"),
-      data: JSON.stringify(submitAction),
-      success: submitted,
-      dataType: "json",
-      contentType: "application/json; charset=utf-8",
+        type: "POST",
+        url: window.location.pathname,
+        data: JSON.stringify(submitAction),
+        success: submitted,
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
     });
-    
 }
 

@@ -27,6 +27,7 @@ public class GameLobby implements StateManager {
         Map<String, Object> context = new HashMap<>();
         context.put(PlayerJoinState.USERS_TAG, this.users);
         context.put(PlayerJoinState.GAME_CODE_TAG, this.gameCode);
+        context.put(PlayerJoinState.HOST_WS_TAG, this.hostWebsocket);
 
         // Start the initial state with necessary parameters
         currentState = new PlayerJoinState(this, context);
