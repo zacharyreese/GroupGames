@@ -71,11 +71,15 @@ public class PlayerJoinState extends State {
     }
 
     private boolean startGame(String selectedGame) {
+        if (selectedGame == null) {
+            // Return false for failure to start game
+            return false;
+        }
         Map<String, Object> context = this.getContext();
         // Add/Remove from the context before starting the game
 
         switch (selectedGame) {
-            case "kah":
+            case "KaH":
                 manager.setState(new KahStartState(manager, context));
                 return true;
         }

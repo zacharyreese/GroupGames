@@ -48,12 +48,12 @@ public class GameAction {
      * @param valueType
      * @return
      */
-    protected boolean requireField(String fieldKey, Class valueType) throws IllegalArgumentException {
+    protected void requireField(String fieldKey, Class valueType) throws IllegalArgumentException {
         Object value = parsed.get(fieldKey);
-        if (value == null)
-            return false;
 
-        return valueType.isInstance(value);
+        // Verify the field exists in the action arguments, and is the correct type
+        if (value == null || !valueType.isInstance(value))
+            throw new IllegalArgumentException();
     }
 
     /**
