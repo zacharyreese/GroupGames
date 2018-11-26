@@ -6,11 +6,11 @@ body {
 }
 
 body {
-  background-color: gray;
-  margin: 0;
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
+    background-color: gray;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
 }
 .waitText{
     position: absolute;
@@ -28,20 +28,20 @@ body {
     margin: 5px;
     padding: 10px;
     max-height: 300px;
-    font-size:24pt;
-    
+    font-size:1.5vw;
+
 }
 
 .selectedcard {
     border: 5px solid gold;
 }
 
-@media all and (max-width: 768px) {
+@media all and (max-width: 1024px) {
     .cardy {
         display: flex;
-        overflow-x: auto; 
+        overflow-x: auto;
     }
-    
+
     #x-btn{
         position: absolute;
         bottom:0%;
@@ -55,17 +55,16 @@ body {
     }
     .card--content {
         display: flex;
-        line-height: 2;
+        line-height: 1.5;
         align-items: center;
         justify-content: center;
-        padding-bottom: 15%;
-        font-size: 2.5vw;
+        font-size: 2vw;
 
     }
-    
+
 }
 
-@media all and (min-width: 767px) {
+@media all and (min-width:1025px) {
     .cardy {
         padding: 0;
         margin: 0;
@@ -77,13 +76,13 @@ body {
     }
 
     .card--content {
-        width: 200px;
+        width: 220px;
         height: 300px;
         #line-height: 150px;
 
 
     }
-    
+
     #x-btn{
         position: fixed;
         top:0%;

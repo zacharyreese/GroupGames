@@ -15,7 +15,7 @@ body {
     position: absolute;
     top:50%;
     left:50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
 }
 
 .myGrid{
@@ -58,7 +58,7 @@ body {
         width: 50%;
         text-align: center;
         font-size: 3vw;
-}
+    }
 
 }
 
@@ -80,13 +80,13 @@ body {
     text-align: center;
     font-size: 3vw;
     place-self: center;
-    
+
 }
 
 .lobbyGrid{
     display: grid;
     grid-template-columns: 20% auto 20%;
-    grid-template-rows: 20% 50% 20% auto; 
+    grid-template-rows: 20% 50% 20% auto;
     height: 100%;
     width: 100%;
 }
@@ -99,13 +99,13 @@ body {
     grid-column-end: 3;
     height: inherit;
     width: inherit;
-    
+
 }
 
 .user{
     font-size:3vw;
     min-height: 40px;
-    text-align: center;  
+    text-align: center;
 }
 
 .lbyCode{
@@ -116,15 +116,15 @@ body {
     grid-row-end:2;
     grid-column-start: 2;
     grid-column-end: 3;
-    
+
 }
 .lbyGridBtn{
     grid-row-start: 3;
     grid-row-end:4;
     grid-column-start:2;
-    grid-column-end: 3;  
+    grid-column-end: 3;
     place-self: center;
-    
+
 }
 .lbyuserxbtn{
     font-size:1.9vw;
@@ -132,26 +132,26 @@ body {
 }
 
 .lbybtn{
-    font-size: 3vw; 
+    font-size: 3vw;
 }
 .gtbtn{
     position:fixed;
     height: 10%;
     width: 10%;
-   
 }
 
-.gtbtn2{
-    position:fixed;
-    height: 10%;
-    width: 10%;
-    left:10%;
+.gtbtnx{
+    margin: 10px;
+}
+
+.gtSelector{
+    margin:  10px;
 }
 
 .hostgrid{
     display: grid;
     grid-template-columns: 30% 40% 30%;
-    grid-template-rows: 10% 60% 20%; 
+    grid-template-rows: 10% 60% 20%;
     height: 100%;
     width: 100%;
 }
@@ -160,7 +160,7 @@ body {
     grid-row-start: 2;
     grid-row-end:3;
     grid-column-start:2;
-    grid-column-end: 3;  
+    grid-column-end: 3;
     place-self: center;
     height: inherit;
 }
@@ -174,7 +174,7 @@ body {
     padding: 20px;
     color: white;
     height: inherit;
-    font-size: 3vw;  
+    font-size: 3vw;
 }
 
 .whitecard{
@@ -186,14 +186,14 @@ body {
     padding: 20px;
     color: black;
     height: inherit;
-    font-size: 3vw;  
+    font-size: 3vw;
 }
 
 .score-container{
     grid-row-start: 2;
     grid-row-end:3;
     grid-column-start:1;
-    grid-column-end: 2;  
+    grid-column-end: 2;
     place-self: center;
     font-size: 3vw;
 }

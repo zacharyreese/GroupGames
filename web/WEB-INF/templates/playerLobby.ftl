@@ -14,9 +14,8 @@
                 <div class="user">${user.username}</div>
             </#list>
         </div> 
-        <button type="submit" class="btn badge-pill badge-primary font-weight-bold lbyGridBtn border border-white lbybtn">{gameName}</button>
     </div>
 
     <script type="application/javascript" src="/GroupGames_Web_exploded/scripts/jquery-3.3.1.min.js"></script>
-    <script src="/GroupGames_Web_exploded/scripts/index.js"></script>
+    <script src="/GroupGames_Web_exploded/scripts/lobby.js"></script>
 </body>
