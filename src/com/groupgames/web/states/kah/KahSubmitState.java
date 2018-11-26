@@ -68,12 +68,7 @@ public class KahSubmitState extends State {
         for(Player p : usersMap.values()) {
             p.writeUpdate(timerUpdate);
         }
-        Session host = GameManager.getInstance().getLobby((String)getContext().get("gamecode")).getHostWebsocket();
-        try {
-            host.getBasicRemote().sendText(timerUpdate);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writeUpdate(timerUpdate);
     }
 
     @Override

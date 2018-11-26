@@ -43,9 +43,9 @@ public class HostEndpoint {
         GameLobby lobby = GameManager.getInstance().getLobby(lobbyID);
         //lobby.registerWebsocket(null, session);
         System.out.println(session.getOpenSessions());
+
         if (!lobby.registerWebsocket(null, session)) {
             // TODO : handle failed websocket register
-            System.out.println("Success");
         }
     }
 

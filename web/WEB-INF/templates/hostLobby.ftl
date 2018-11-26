@@ -13,8 +13,12 @@
             if (JSON.parse(event.data).method == "refresh") {
                 location.reload();
             }
-        }
-        ws.onopen = function(event){ws.send("{\"player_id\": \"${(uid)!""}\", \"gamecode\":\"${gamecode}\"}");};
+        };
+        ws.onopen = function(event){
+            ws.send(JSON.stringify({
+                "gamecode" : "${gamecode}"
+            }));
+        };
     </script>
 </head>
 

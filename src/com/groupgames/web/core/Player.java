@@ -2,9 +2,10 @@ package com.groupgames.web.core;
 
 import javax.websocket.Session;
 import java.io.IOException;
+import java.util.UUID;
 
 public class Player {
-    String userID = String.valueOf((int)(Math.random() * 1000000));
+    String userID;
     String username;
     String gameCode;
     transient Session websocket;
@@ -12,6 +13,7 @@ public class Player {
     public Player(String username, String gameCode) {
         this.gameCode = gameCode;
         this.username = username;
+        this.userID = UUID.randomUUID().toString();
     }
 
     public Player(String userID, String username, String gameCode) {

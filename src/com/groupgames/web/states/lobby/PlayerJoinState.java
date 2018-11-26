@@ -18,7 +18,6 @@ import java.util.Map;
 public class PlayerJoinState extends State {
     public static final String USERS_TAG = "users";
     public static final String GAME_CODE_TAG = "gamecode";
-    public static final String HOST_WS_TAG = "hostWS";
     HashMap<String, Object> templateData = new HashMap<>();
     HashMap<String, Player> usersMap;
 
@@ -37,11 +36,11 @@ public class PlayerJoinState extends State {
         JSONData.put("users", usersMap.values());
         JSONData.put("method", "update");
         JsonView json = new JsonView(JSONData);
-        String userData = json.toString();
-        HashMap<String, Player> usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
+        String jsonStr = json.toString();
         for(Player p : usersMap.values()) {
-            p.writeUpdate(userData);
+            p.writeUpdate(jsonStr);
         }
+        writeUpdate(jsonStr);
     }
 
     @Override
@@ -109,13 +108,6 @@ public class PlayerJoinState extends State {
         for(Player p : usersMap.values()) {
             p.writeUpdate(refreshCommand);
         }
-       Session hostSession = GameManager.getInstance().getLobby((String)getContext().get("gamecode")).getHostWebsocket();
-        if(hostSession != null) {
-            try {
-                hostSession.getBasicRemote().sendText(refreshCommand);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        writeUpdate(refreshCommand);
     }
 }

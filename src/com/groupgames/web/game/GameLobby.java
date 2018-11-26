@@ -56,8 +56,8 @@ public class GameLobby implements StateManager {
     /**
      * Registers a user with the given username to this lobby.
      *
-     * @param uid user ID of the user to be added
-     * @param name custom name entered by the user
+     * @param username custom name entered by the user
+     * @param gameCode lobbyID of the game to join
      *
      * @return operation successful? false indicates user ID already exists
      */
@@ -74,7 +74,7 @@ public class GameLobby implements StateManager {
     public synchronized boolean registerWebsocket(String id, Session websocket) {
         // Null ID == host
         if (id == null){
-            hostWebsocket = websocket;
+            currentState.setWebsocket(websocket);
         } else {
             // Attach websocket to specific player
             Player user = users.get(id);
@@ -85,10 +85,6 @@ public class GameLobby implements StateManager {
         }
 
         return false;
-    }
-
-    public Session getHostWebsocket() {
-        return hostWebsocket;
     }
 
 

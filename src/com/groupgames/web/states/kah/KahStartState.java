@@ -98,14 +98,7 @@ public class KahStartState extends State {
         for(Player p : usersMap.values()) {
             p.writeUpdate(refreshCommand);
         }
-        Session hostSession = GameManager.getInstance().getLobby((String)getContext().get("gamecode")).getHostWebsocket();;
-        if(hostSession != null) {
-            try {
-                hostSession.getBasicRemote().sendText(refreshCommand);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        writeUpdate(refreshCommand);
     }
 
 }

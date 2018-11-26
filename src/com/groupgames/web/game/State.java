@@ -2,10 +2,14 @@ package com.groupgames.web.game;
 
 import com.groupgames.web.game.view.View;
 
+import javax.websocket.Session;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 public abstract class State {
+    public static final String HOST_WS_TAG = "hostWS";
+
     protected StateManager manager;
     private Map<String, Object> context;
 
@@ -34,6 +38,26 @@ public abstract class State {
             // Copy the existing context to prevent editing the existing one
             this.context = new HashMap<>(context);
         }
+    }
+
+    public void setWebsocket(Session peer) {
+        this.getContext().put(HOST_WS_TAG, peer);
+    }
+
+    public boolean writeUpdate(String updateText) {
+        Session websocket = (Session) getContext().get(HOST_WS_TAG);
+        if (websocket != null) {
+            try {
+                websocket.getBasicRemote().sendText(updateText);
+                return true;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        // Failed to write update. User hasn't registered websocket connection yet
+        return false;
     }
 
     /**

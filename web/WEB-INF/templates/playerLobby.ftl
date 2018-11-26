@@ -7,15 +7,20 @@
     <link rel="stylesheet"  href="/GroupGames_Web_exploded/css/style.css"/>
     <script>
         var ws = new WebSocket("ws://localhost:8080/GroupGames_Web_exploded/playWS");
-        var hostWS = new WebSocket("ws://localhost:8080/GroupGames_Web_exploded/hostWS")
 
         ws.onmessage = function (event) { //Receive from websocket
             console.log(event.data);
             if (JSON.parse(event.data).method == "refresh") {
                 location.reload();
             }
-        }
-        ws.onopen = function(event){ws.send("{\"player_id\": \"${(uid)!""}\", \"gamecode\":\"${gamecode}\"}");};
+        };
+
+        ws.onopen = function(event){
+            ws.send(JSON.stringify({
+                "player_id": "${uid}",
+                "gamecode" : "${gamecode}"
+            }));
+        };
     </script>
 </head>
 
