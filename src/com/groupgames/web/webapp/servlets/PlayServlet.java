@@ -34,8 +34,9 @@ public class PlayServlet extends GameBaseServlet {
             return;
         }
 
+        String uid = (String) clientSession.getAttribute("uid");
         String gameCode = (String) clientSession.getAttribute("gamecode");
-        if (gameCode == null) {
+        if (gameCode == null || uid == null) {
             // Redirect user back to homepage
             response.sendRedirect("../../");
             return;
@@ -48,9 +49,9 @@ public class PlayServlet extends GameBaseServlet {
         }
 
         // Perform the action
-        lobby.doAction(clientSession.getId(), playerAction);
+        lobby.doAction(uid, playerAction);
 
-        View view = lobby.getView(clientSession.getId(), webRootPath);
+        View view = lobby.getView(uid, webRootPath);
         if (view == null || !view.respond(response.getWriter())) {
             // TODO: Handle write failure
         }
@@ -59,11 +60,11 @@ public class PlayServlet extends GameBaseServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession clientSession = request.getSession();
 
+        String uid = (String) clientSession.getAttribute("uid");
         String gameCode = (String) clientSession.getAttribute("gamecode");
-        if (gameCode == null) {
+        if (gameCode == null || uid == null) {
             // Redirect user back to homepage
-            // TODO: this doesnt redirect properly. fix
-            response.sendRedirect("../../");
+            response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/"));
             return;
         }
 
@@ -73,7 +74,7 @@ public class PlayServlet extends GameBaseServlet {
             return;
         }
 
-        View view = lobby.getView(clientSession.getId(), webRootPath);
+        View view = lobby.getView(uid, webRootPath);
         if (view == null || !view.respond(response.getWriter())) {
             // TODO: Handle write failure
         }

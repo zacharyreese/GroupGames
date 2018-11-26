@@ -4,7 +4,7 @@ import javax.websocket.Session;
 import java.io.IOException;
 
 public class Player {
-    public String userID = String.valueOf((int)(Math.random() * 1000000));
+    String userID = String.valueOf((int)(Math.random() * 1000000));
     String username;
     String gameCode;
     Session websocket;
