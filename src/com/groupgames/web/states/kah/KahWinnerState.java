@@ -19,8 +19,6 @@ import static com.groupgames.web.states.lobby.PlayerJoinState.GAME_CODE_TAG;
 import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 
 public class KahWinnerState extends State {
-    GameAction countdownConstruct = new GameAction("{ \"type\": \"timer\", \"time\": \"10\" }");
-    GameAction countdown = new GameAction(countdownConstruct);
     Integer countdownTimer = 10;
     private static Timer timer;
 
