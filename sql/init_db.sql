@@ -62,7 +62,7 @@ ALTER TABLE `KaH_PlayerHand` ADD CONSTRAINT `KaH_PlayerHand_fk2` FOREIGN KEY (`G
 
 INSERT INTO KaH_BlackCard (CardText)
 VALUES ('_______________ of Unusual Size? I don''t believe in them.'),
-       ('"_______________ victims should make the best of a bad situation." â€“ Rick Santorum'),
+       ('"_______________ victims should make the best of a bad situation." - Rick Santorum'),
        ('A loaf of bread, a glass of wine, and _______________.'),
        ('Each freckle is a soul that a ginger has _______________.'),
        ('I got a job once cleaning _______________.'),
@@ -110,7 +110,7 @@ VALUES ('Nipple hair.'),
        ('I would lick that for hours.'),
        ('Invisible Pink Unicorn.'),
        ('It''s Frothy!'),
-       ('JalapeÃ±os as a basic food group.'),
+       ('Jalapeños as a basic food group.'),
        ('Just Glue Some Gears On It'),
        ('Just turned 18.'),
        ('Kenny Loggins can read minds.'),
