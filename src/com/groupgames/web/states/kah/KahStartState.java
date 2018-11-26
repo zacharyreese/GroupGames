@@ -83,7 +83,7 @@ public class KahStartState extends State {
         }
     }
 
-    private void forceRefresh(){
+    private void forceRefresh() {
         HashMap<String, Object> JSONData = new HashMap<>();
         JSONData.put("method", "refresh");
         JsonView json = new JsonView(JSONData);

@@ -29,6 +29,7 @@ public class KahSubmitState extends State {
     Map<String, List<Card>> playerHands;
     Map<String, Integer> submittedCards;
     HashMap<String, Player> usersMap;
+    Card blackCard;
 
     public KahSubmitState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
@@ -41,6 +42,10 @@ public class KahSubmitState extends State {
         }
         topUpHands(usersMap, playerHands);
 
+        blackCard = CardManager.getRandBlackCard();
+        if(blackCard == null){
+            // TODO: FAILED TO FETCH BLACK CARD
+        }
         submittedCards = new HashMap<>();
 
         timer = new Timer();
@@ -75,29 +80,26 @@ public class KahSubmitState extends State {
     public View getView(String uid, String webRootPath) {
         View view = null;
 
+        HashMap<String, Object> templateData = new HashMap<>();
+        templateData.put("cards", convertTemplate(playerHands.get(uid)));
+        templateData.put("timer", countdownTimer);
+
+        templateData.put("gamecode", this.getContext().get(GAME_CODE_TAG));
+        templateData.put("uid", uid);
+
+        templateData.put("hostCardText", blackCard.getCardText());
+
         // Handle submit view
-        if(uid != null) {
-            HashMap<String, Object> templateData = new HashMap<>();
-            templateData.put("cards", playerHands.get(uid));
-            templateData.put("timer", countdownTimer);
-            templateData.put("cards", playerHands.get(uid));
-
-            templateData.put("gamecode", this.getContext().get(GAME_CODE_TAG));
-            templateData.put("uid", uid);
-
-            try {
-                view = new TemplateView(webRootPath, "playerHand.ftl", templateData);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            HashMap<String, Object> templateData = new HashMap<>();
-            try {
+        try {
+            if(uid == null) {
                 view = new TemplateView(webRootPath, "hostSubmission.ftl", templateData);
-            } catch (IOException e) {
-                e.printStackTrace();
+            } else {
+                view = new TemplateView(webRootPath, "playerHand.ftl", templateData);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return view;
     }
 
@@ -131,8 +133,10 @@ public class KahSubmitState extends State {
 
         for(Player player : users.values()){
             List<Card> playerHand = playerHands.get(player.getUserID());
-            if(playerHand == null)
+            if(playerHand == null) {
                 playerHand = new ArrayList<Card>();
+                playerHands.put(player.getUserID(), playerHand);
+            }
 
             if(playerHand.size() < HAND_COUNT) {
                 List<Card> newCards = CardManager.getWhiteCards(HAND_COUNT - playerHand.size());
@@ -143,9 +147,11 @@ public class KahSubmitState extends State {
 
     public HashMap<String, String> convertTemplate(List<Card> cards) {
         HashMap<String, String> cardList = new HashMap<String, String>();
-        for(int i = 0; i < cards.size(); i++) {
-            String cardID = (String) cards.get(i).getCardID(cards.get(i));
-            String cardText = cards.get(i).getCardID(cards.get(i));
+        if (cards == null) { return cardList; }
+
+        for(Card c : cards) {
+            String cardID = c.getCardID();
+            String cardText = c.getCardText();
             cardList.put(cardID, cardText);
         }
         return cardList;

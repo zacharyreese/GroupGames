@@ -8,13 +8,13 @@
 
 <body>
     <div class="hostgrid bg-secondary">
-        <div class="score-container">
-                <#list users as id, user>
+        <!--<div class="score-container">
+                <#--<#list users as id, user>
                     <div class="playerscore"> ${user.username}:{player.score}</div>
-                </#list>
-        </div>
+                </#list>-->
+        </div>-->
         <div class="host-card">
-            <div class="blackcard"> ${hostCard.text} </div>
+            <div class="blackcard"> ${hostCardText} </div>
         </div>
     </div>
     <div class="btn badge-pill badge-primary font-weight-bold border border-white timerbtn text-center">${timer}</div>

@@ -9,11 +9,11 @@ public class Card {
         this.cardText = cardText;
     }
 
-    public String getCardID(Card card) {
-        return card.cardID;
+    public String getCardID() {
+        return this.cardID;
     }
 
-    public String getCardText(Card card) {
-        return card.cardText;
+    public String getCardText() {
+        return this.cardText;
     }
 }

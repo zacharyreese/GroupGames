@@ -22,8 +22,8 @@
     <section class="cardy">
         <!-- gameState.submitUrl is a url string for the ajax request. It should tell the page when it is on the vote screen or on the play screen -->
         <#if cards??>
-        <#list cards as card>
-            <div class="card--content" data-cardId = "${card.cardID}"> ${card}</div>
+        <#list cards as cardID, cardText>
+            <div class="card--content" data-cardId = "${cardID}"> ${cardText}</div>
         </#list>
         </#if>
     </section>
