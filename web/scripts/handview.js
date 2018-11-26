@@ -7,7 +7,7 @@ function startup() {
         cards[i].addEventListener("click", selectMe);
     }
     document.getElementById("timer").addEventListener("click", submit);
-    $(".waitText")[0].style.display = "none";
+
 }
 
 function selectMe() {
@@ -17,7 +17,6 @@ function selectMe() {
 }
 
 function submitted () {
-    $(".waitText")[0].style.display = "block";
     $(".cardy")[0].style.display = "none";
 }
 

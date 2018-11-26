@@ -29,14 +29,15 @@ public class JoinServlet extends GameBaseServlet {
             respondWithError(response, "error.ftl", ServletError.RESOURCE_NOT_FOUND);
             return;
         }
-
-        if (!lobby.addUser(clientSession.getId(), username)){
+        String uid = lobby.addUser(username, gameCode);
+        if (uid == null){
             response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/game/play"));
             return;
         }
 
         // Set the gameCode for the session so it doesnt have to be looked up by the PlayServlet
         clientSession.setAttribute("gamecode", gameCode);
+        clientSession.setAttribute("uid", uid);
         // Redirect to the play servlet to get the client's view
         response.sendRedirect(response.encodeRedirectURL(request.getContextPath() + "/game/play"));
     }

@@ -10,3 +10,4 @@
     <div class="center">${error.errCode} : ${error.errMsg}</div>
     <script src="/GroupGames_Web_exploded/scripts/index.js"></script>
 </body>
+</html>

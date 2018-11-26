@@ -1,20 +1,20 @@
 $(function () {
     var gameWord;
-    $(".selbox")[0].style.display = "none";
     window.onload = start;
 
-   /*var ws = new WebSocket("ws://localhost:8080/GroupGames_Web_exploded/hostWS");
+    /*var ws = new WebSocket("ws://localhost:8080/GroupGames_Web_exploded/hostWS");
 
-    ws.onmessage = function (event) { //Receive from websocket
-        console.log(event.data);
-        if (event.data.method == "refresh") {
-            location.reload();
-        }
-    }
-    ws.onopen = (function(event){ws.send("{\"player_id\": \"${(uid)!\"\"}\", \"gamecode\":\"${gamecode}\"}");});*/
+     ws.onmessage = function (event) { //Receive from websocket
+         console.log(event.data);
+         console.log(event.data);
+         if (event.data.method == "refresh") {
+             location.reload();
+         }
+     }
+     ws.onopen = function(event){ws.send("{\"player_id\": \"${(uid)!""}\", \"gamecode\":\"${gamecode}\"}");};*/
 
     function start() {
-        $(".selbox")[0].style.display = "none";
+        //$(".selbox")[0].style.display = "none";
         $(".gtbtn").click(swap);
         $(".gtbtnx").click(swapback);
         $(".startbtn").click(startgame);
@@ -47,13 +47,9 @@ $(function () {
             dataType: "json",
             contentType: "application/json; charset=utf-8",
         });
-        setTimeout(function () {
-            location.reload();
-        }, 500);
     }
 
     function kick() {
         $(this).attr("data-playerId"); //this gets the id of the player to be kicked rest of function needs writing
-        location.reload();
     }
 });

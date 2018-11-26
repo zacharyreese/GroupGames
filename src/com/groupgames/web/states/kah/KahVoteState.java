@@ -21,8 +21,7 @@ public class KahVoteState extends State {
     List<String> myList = new ArrayList<String>();
     HashMap<String, Player> usersMap;
 
-
-    Integer countdownTimer = 10;
+    int countdownTimer = 10;
     private static Timer timer;
     HashMap<Integer, Integer> cardVotes = new HashMap<>();
 
@@ -34,14 +33,12 @@ public class KahVoteState extends State {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                synchronized(countdownTimer) {
-                    if (countdownTimer == 0) {
-                        timer.cancel();
-                        manager.setState(new KahWinnerState(manager, context));
-                    }
-                    countdownTimer--;
-                    update();
-                }
+            if (countdownTimer == 0) {
+                timer.cancel();
+                manager.setState(new KahWinnerState(manager, context));
+            }
+            update();
+            countdownTimer--;
             }
         }, 0, 1000);
     }
@@ -80,6 +77,7 @@ public class KahVoteState extends State {
     @Override
     public void doAction(String uid, GameAction action) {
         Map<String, Object> context = this.getContext();
+
         switch (action.getType()) {
             case "vote":
                 // Handles submit action

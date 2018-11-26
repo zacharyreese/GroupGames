@@ -3,8 +3,7 @@ package com.groupgames.web.states.kah.actions;
 import com.groupgames.web.game.GameAction;
 
 public class VoteAction extends GameAction{
-    private static final String CARD_ID = "ID";
-
+    private static final String CARD_ID = "cardID";
 
     public VoteAction(GameAction baseAction) throws IllegalArgumentException {
         super(baseAction);
@@ -16,5 +15,3 @@ public class VoteAction extends GameAction{
         return (Integer) parsed.get(CARD_ID);
     }
 }
-
-

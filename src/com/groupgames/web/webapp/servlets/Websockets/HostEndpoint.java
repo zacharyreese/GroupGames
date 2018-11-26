@@ -26,6 +26,7 @@ public class HostEndpoint {
     @OnMessage
     public void handleMessage(String message, Session session) throws IOException {
         Map<String, String> parsedRegisterMessage;
+        System.out.println(message);
         try {
             parsedRegisterMessage = new Gson().fromJson(message, new HashMap<String, String>().getClass());
         } catch (Exception e) {
@@ -40,6 +41,9 @@ public class HostEndpoint {
         }
 
         GameLobby lobby = GameManager.getInstance().getLobby(lobbyID);
+        //lobby.registerWebsocket(null, session);
+        System.out.println(session.getOpenSessions());
+
         if (!lobby.registerWebsocket(null, session)) {
             // TODO : handle failed websocket register
         }

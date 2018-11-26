@@ -56,25 +56,25 @@ public class GameLobby implements StateManager {
     /**
      * Registers a user with the given username to this lobby.
      *
-     * @param uid user ID of the user to be added
-     * @param name custom name entered by the user
+     * @param username custom name entered by the user
+     * @param gameCode lobbyID of the game to join
      *
      * @return operation successful? false indicates user ID already exists
      */
-    public synchronized boolean addUser(String uid, String name) {
-        if (!users.containsKey(uid)) {
-            Player newUser = new Player(uid, name);
-            users.put(uid, newUser);
+    public synchronized String addUser(String username, String gameCode) {
+        if (!users.containsKey(username)) {
+            Player newUser = new Player(username, gameCode);
+            users.put(newUser.getUserID(), newUser);
             currentState.update();
-            return true;
+            return newUser.getUserID();
         }
-        return false;
+        return null;
     }
 
     public synchronized boolean registerWebsocket(String id, Session websocket) {
         // Null ID == host
         if (id == null){
-            hostWebsocket = websocket;
+            currentState.setWebsocket(websocket);
         } else {
             // Attach websocket to specific player
             Player user = users.get(id);

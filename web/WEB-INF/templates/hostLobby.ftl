@@ -5,6 +5,21 @@
     <meta charset="utf-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet"  href="/GroupGames_Web_exploded/css/style.css"/>
+    <script>
+        var ws = new WebSocket("ws://localhost:8080/GroupGames_Web_exploded/hostWS");
+        var playWS = new WebSocket("ws://localhost:8080/GroupGames_Web_exploded/playWS")
+        ws.onmessage = function (event) { //Receive from websocket
+            console.log(event.data);
+            if (JSON.parse(event.data).method == "refresh") {
+                location.reload();
+            }
+        };
+        ws.onopen = function(event){
+            ws.send(JSON.stringify({
+                "gamecode" : "${gamecode}"
+            }));
+        };
+    </script>
 </head>
 
 <body>
@@ -27,9 +42,10 @@
                 </#list>
         </div>
 
-        <button class="btn badge-pill badge-primary font-weight-bold lbyGridBtn border border-white lbybtn startbtn">Start Game</button>
+        <button class="btn badge-pill badge-primary font-weight-bold lbyGridBtn border border-white lbybtn startbtn" id="startGame">Start Game</button>
     </div>
 
     <script type="application/javascript" src="/GroupGames_Web_exploded/scripts/jquery-3.3.1.min.js"></script>
     <script src="/GroupGames_Web_exploded/scripts/lobby.js"></script>
 </body>
+</html>

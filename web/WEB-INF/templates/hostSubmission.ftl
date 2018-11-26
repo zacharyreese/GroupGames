@@ -22,3 +22,4 @@
     <script src="/GroupGames_Web_exploded/scripts/host.js"></script>
     <script src="/GroupGames_Web_exploded/scripts/jquery-3.3.1.min.js"></script>
 </body>
+</html>
