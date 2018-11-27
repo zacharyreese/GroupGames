@@ -24,7 +24,7 @@ function submit() {
     var goldcard = $(".selectedcard").first();
 
     var submitAction = {
-        "type":"submit",
+        "type":"cardSubmit",
         "cardID": goldcard.attr("data-cardId")
     }
     $.ajax({

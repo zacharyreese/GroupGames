@@ -10,8 +10,15 @@ public class PlayerHand  {
     private Map<Integer, Card> cards;
 
     public PlayerHand(){
-        cards = new HashMap<Integer, Card>();
+        cards = new HashMap<>();
         this.refill();
+    }
+
+    public PlayerHand(List<Card> initCards){
+        cards = new HashMap<>();
+        for(Card c : initCards){
+            cards.put(c.getCardID(), c);
+        }
     }
 
     public boolean hasCard(Integer cardID) {

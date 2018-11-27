@@ -2,16 +2,16 @@ package com.groupgames.web.states.kah.actions;
 
 import com.groupgames.web.game.GameAction;
 
-public class SubmitAction extends GameAction {
+public class CardSubmitAction extends GameAction {
     private static final String CARD_ID_TAG = "cardID";
 
-    public SubmitAction(GameAction baseAction) throws IllegalArgumentException {
+    public CardSubmitAction(GameAction baseAction) throws IllegalArgumentException {
         super(baseAction);
         requireField(CARD_ID_TAG, String.class);
 
     }
 
-    public Integer getSelected(){
+    public Integer getCardId(){
         String rawId = (String) parsed.get(CARD_ID_TAG);
         Double id = null;
 

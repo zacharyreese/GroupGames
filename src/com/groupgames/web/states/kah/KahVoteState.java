@@ -1,13 +1,15 @@
 package com.groupgames.web.states.kah;
 
+import com.groupgames.web.core.Card;
 import com.groupgames.web.core.Player;
+import com.groupgames.web.core.PlayerHand;
 import com.groupgames.web.game.GameAction;
 import com.groupgames.web.game.State;
 import com.groupgames.web.game.StateManager;
 import com.groupgames.web.game.view.JsonView;
 import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
-import com.groupgames.web.states.kah.actions.VoteAction;
+import com.groupgames.web.states.kah.actions.CardSubmitAction;
 
 import java.io.IOException;
 import java.util.*;
@@ -16,30 +18,38 @@ import static com.groupgames.web.states.lobby.PlayerJoinState.GAME_CODE_TAG;
 import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 
 public class KahVoteState extends State {
-    private static final String SUBMIT_CARDS_TAG = "SubmitCard";
-    List<String> myList = new ArrayList<String>();
-    HashMap<String, Player> usersMap;
+    public static final String SUBMIT_CARDS_TAG = "submittedCards";
+    public static final String BLACK_CARD_TAG = "blackCard";
 
-    int countdownTimer = 10;
-    private static Timer timer;
-    HashMap<Integer, Integer> cardVotes = new HashMap<>();
+    private Integer countdownTimer = 10;
+    private Timer timer;
+
+    private HashMap<String, Player> usersMap;
+    private HashMap<Player, Card> submittedCards; // map userID to the card they played
+    private Card blackCard;
+
+    private List<String> votedUsers = new ArrayList<>();
+    private Map<Integer, Integer> cardVotes = new HashMap<>(); // map to hold votes for each card ID
 
     public KahVoteState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
 
-        usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
+        usersMap = (HashMap<String, Player>) getContext().get(USERS_TAG);
+        submittedCards = (HashMap<Player, Card>) getContext().get(SUBMIT_CARDS_TAG);
+        blackCard = (Card) getContext().get(BLACK_CARD_TAG);
 
+        // Start the countdown timer
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-            if (countdownTimer == 0) {
-                timer.cancel();
-                manager.setState(new KahWinnerState(manager, context));
+                if (countdownTimer > 0) {
+                    countdownTimer--;
+                } else {
+                    //transitionWinState();
+                }
+                update();
             }
-            update();
-            countdownTimer--;
-            }
-        }, 0, 1000);
+        }, 5000, 1000);
     }
 
     @Override
@@ -58,59 +68,93 @@ public class KahVoteState extends State {
     public View getView(String uid, String webRootPath) {
         View view = null;
 
-        // Handle vote view
-        if(uid == null) {
-            HashMap<String, Object> templateData = new HashMap<>();
-            templateData.put("cards", getContext().get(SUBMIT_CARDS_TAG));
-            templateData.put("timer", countdownTimer);
+        HashMap<String, Object> templateData = new HashMap<>();
+        // Add generic template fields to the data map
+        templateData.put("timer", countdownTimer);
+        templateData.put("gamecode", this.getContext().get(GAME_CODE_TAG));
+        templateData.put("uid", uid);
 
-            try {
-                view = new TemplateView(webRootPath,"playerHand.ftl", templateData);
-            } catch (IOException e) {
-                e.printStackTrace();
+        // Add host/player specific fields and set the corresponding ftl files
+        try {
+            if(uid == null) {
+                // Handle host view
+                templateData.put("hostCardText", blackCard.getCardText());
+
+                view = new TemplateView(webRootPath, "hostSubmission.ftl", templateData);
+            } else {
+                // Handle user view
+                PlayerHand tempHand = new PlayerHand(new ArrayList<>(submittedCards.values()));
+                templateData.put("cards", tempHand.asMap());
+
+                view = new TemplateView(webRootPath, "playerHand.ftl", templateData);
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
         return view;
     }
 
     @Override
     public void doAction(String uid, GameAction action) {
-        Map<String, Object> context = this.getContext();
-
         switch (action.getType()) {
-            case "vote":
-                // Handles submit action
-                VoteAction voteAction = new VoteAction(action);
+            case "cardSubmit":
+                // Update the user's submitted card with the new card
+                CardSubmitAction cardSubmitAction = new CardSubmitAction(action);
 
-                if(!myList.contains(uid)) {
-
-                    int count = cardVotes.get(voteAction.getSelected());
-                    cardVotes.put(voteAction.getSelected(), count + 1);
-                    myList.add(uid);
-
-                }
-                if(myList.size()==usersMap.size()){
-
-
-                    manager.setState(new KahWinnerState(manager, context));
+                // If the user hasn't already voted, cast their vote
+                if(!votedUsers.contains(uid)) {
+                    int cardId = cardSubmitAction.getCardId();
+                    Integer count = cardVotes.get(cardId);
+                    count = count != null ? count + 1 : 1; // If the vote count exists, increment it. Otherwise set to 1
+                    cardVotes.put(cardId, count);
+                    votedUsers.add(uid);
                 }
 
+                // If all votes are accounted for, transition states
+                if(votedUsers.size() == usersMap.size()){
+                    transitionWinState();
+                }
                 break;
-
         }
     }
-    private Integer getVotedCard() {
-        Map.Entry<Integer, Integer> firstEntry = cardVotes.entrySet().iterator().next();
-        int largestKey = firstEntry.getKey();
-        Integer largestKeyValue = firstEntry.getValue();
+
+    private Integer getVotedCard(Map<Integer, Integer> cardVotes) {
+        Integer cardId = null;
+        Integer maxVoteCount = null;
 
         for (Map.Entry<Integer, Integer> entry : cardVotes.entrySet()) {
-            int value = entry.getValue();
-            if (value > largestKeyValue) {
-                largestKey = entry.getKey();
-                largestKeyValue = entry.getValue();            }
+            int voteCount = entry.getValue();
+            if (maxVoteCount == null || voteCount > maxVoteCount) {
+                cardId = entry.getKey();
+                maxVoteCount = voteCount;
+            }
         }
-        return largestKey;
+        return cardId;
+    }
 
+    private Player getWinner(int winningCardId) {
+        for(Map.Entry<Player, Card> submitted : submittedCards.entrySet()) {
+            Player submitter = submitted.getKey();
+            Card card = submitted.getValue();
+
+            if (card.getCardID() == winningCardId){
+                return submitter;
+            }
+        }
+
+        // Failed to find the user that submitted the card
+        return null;
+    }
+
+    private void transitionWinState(){
+        Map<String, Object> context = this.getContext();
+
+        Integer winningCardId = getVotedCard(this.cardVotes);
+        context.put("", winningCardId);
+        context.put("", getWinner(winningCardId));
+
+        timer.cancel();
+        manager.setState(new KahWinnerState(manager, context));
     }
 }
