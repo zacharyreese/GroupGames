@@ -19,7 +19,7 @@ public class KahSubmitState extends State {
     private Integer countdownTimer = 10;
     private Timer timer;
 
-    private Map<Player, PlayerHand> playerHands;
+    private Map<String, PlayerHand> playerHands;
     private Map<String, Card> submittedCards;
     private HashMap<String, Player> usersMap;
     private Card blackCard;
@@ -27,7 +27,7 @@ public class KahSubmitState extends State {
     public KahSubmitState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
         usersMap = (HashMap<String, Player>) context.get(USERS_TAG);
-        playerHands = (Map<Player, PlayerHand>) context.get(PLAYER_HANDS_TAG);
+        playerHands = (Map<String, PlayerHand>) context.get(PLAYER_HANDS_TAG);
 
         // Instantiate the player hands if not stored in the context yet
         if (playerHands == null) {
@@ -139,13 +139,13 @@ public class KahSubmitState extends State {
      * @param users
      * @param playerHands
      */
-    private void topUpHands(HashMap<String, Player> users, Map<Player, PlayerHand> playerHands){
+    private void topUpHands(HashMap<String, Player> users, Map<String, PlayerHand> playerHands){
 
         for(Player player : users.values()){
             PlayerHand playerHand = playerHands.get(player.getUserID());
             if(playerHand == null) {
                 playerHand = new PlayerHand();
-                playerHands.put(player, playerHand);
+                playerHands.put(player.getUserID(), playerHand);
             }
 
             playerHand.refill();

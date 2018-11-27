@@ -65,4 +65,24 @@ public class CardManager {
 
         return card;
     }
+
+    public static Card getWhiteCardId(int cardId) {
+        String SQL = "SELECT * FROM kah_whitecard WHERE CardId = " + cardId;
+        Card card = null;
+
+        try {
+            Connection conn  = DBManager.getInstance().getConnection();
+            ResultSet rs = conn.createStatement().executeQuery(SQL);
+
+            if(rs.next()) {
+                int cardID = rs.getInt(1);
+                String cardText = rs.getString(2);
+                card = new Card(cardID, cardText);
+            }
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return card;
+    }
 }

@@ -1,6 +1,7 @@
 package com.groupgames.web.states.kah;
 
 import com.groupgames.web.core.Card;
+import com.groupgames.web.core.CardManager;
 import com.groupgames.web.core.Player;
 import com.groupgames.web.core.PlayerHand;
 import com.groupgames.web.game.GameAction;
@@ -25,7 +26,7 @@ public class KahVoteState extends State {
     private Timer timer;
 
     private HashMap<String, Player> usersMap;
-    private HashMap<Player, Card> submittedCards; // map userID to the card they played
+    private HashMap<String, Card> submittedCards; // map userID to the card they played
     private Card blackCard;
 
     private List<String> votedUsers = new ArrayList<>();
@@ -35,7 +36,7 @@ public class KahVoteState extends State {
         super(manager, context);
 
         usersMap = (HashMap<String, Player>) getContext().get(USERS_TAG);
-        submittedCards = (HashMap<Player, Card>) getContext().get(SUBMIT_CARDS_TAG);
+        submittedCards = (HashMap<String, Card>) getContext().get(SUBMIT_CARDS_TAG);
         blackCard = (Card) getContext().get(BLACK_CARD_TAG);
 
         // Start the countdown timer
@@ -119,7 +120,7 @@ public class KahVoteState extends State {
         }
     }
 
-    private Integer getVotedCard(Map<Integer, Integer> cardVotes) {
+    private Card getVotedCard(Map<Integer, Integer> cardVotes) {
         Integer cardId = null;
         Integer maxVoteCount = null;
 
@@ -130,15 +131,20 @@ public class KahVoteState extends State {
                 maxVoteCount = voteCount;
             }
         }
-        return cardId;
+
+        if (cardId == null)
+            return null;
+
+        return CardManager.getWhiteCardId(cardId);
     }
 
-    private Player getWinner(int winningCardId) {
-        for(Map.Entry<Player, Card> submitted : submittedCards.entrySet()) {
-            Player submitter = submitted.getKey();
+    private Player getWinner(Card winningCard) {
+        for(Map.Entry<String, Card> submitted : submittedCards.entrySet()) {
+            String submitterId = submitted.getKey();
             Card card = submitted.getValue();
 
-            if (card.getCardID() == winningCardId){
+            if (card.equals(winningCard)){
+                Player submitter = usersMap.get(submitterId);
                 return submitter;
             }
         }
@@ -150,9 +156,9 @@ public class KahVoteState extends State {
     private void transitionWinState(){
         Map<String, Object> context = this.getContext();
 
-        Integer winningCardId = getVotedCard(this.cardVotes);
-        context.put("", winningCardId);
-        context.put("", getWinner(winningCardId));
+        Card winningCard = getVotedCard(this.cardVotes);
+        context.put(KahWinnerState.WINNING_CARD_TAG, winningCard);
+        context.put(KahWinnerState.WINNER_TAG, getWinner(winningCard));
 
         timer.cancel();
         manager.setState(new KahWinnerState(manager, context));
