@@ -13,7 +13,7 @@ public class CardManager {
             ResultSet rs = conn.createStatement().executeQuery(SQL);
 
             while (rs.next()) {
-                String cardID = rs.getString(1);
+                int cardID = rs.getInt(1);
                 String cardText = rs.getString(2);
                 Card card = new Card(cardID, cardText);
                 whiteCardsList.add(card);
@@ -34,7 +34,7 @@ public class CardManager {
             ResultSet rs = conn.createStatement().executeQuery(SQL);
 
             while(rs.next()) {
-                String cardID = rs.getString(1);
+                int cardID = rs.getInt(1);
                 String cardText = rs.getString(2);
                 Card card = new Card(cardID, cardText);
                 blackCardsList.add(card);
@@ -55,7 +55,7 @@ public class CardManager {
             ResultSet rs = conn.createStatement().executeQuery(SQL);
 
             while(rs.next()) {
-                String cardID = rs.getString(1);
+                int cardID = rs.getInt(1);
                 String cardText = rs.getString(2);
                 card = new Card(cardID, cardText);
             }

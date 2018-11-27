@@ -20,44 +20,44 @@ import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 
 public class KahSubmitState extends State {
     public static final String PLAYER_HANDS_TAG = "playerHands";
-    public static final int HAND_COUNT = 5;
 
-    Integer countdownTimer = 10;
-    private static Timer timer;
-    String submittedCardID;
+    private Integer countdownTimer = 10;
+    private Timer timer;
 
-    Map<String, List<Card>> playerHands;
-    Map<String, Integer> submittedCards;
-    HashMap<String, Player> usersMap;
-    Card blackCard;
+    private Map<String, PlayerHand> playerHands;
+    private Map<String, Integer> submittedCards;
+    private HashMap<String, Player> usersMap;
+    private Card blackCard;
 
     public KahSubmitState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
-        usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
-        playerHands = (Map<String, List<Card>>) context.get(PLAYER_HANDS_TAG);
+        usersMap = (HashMap<String, Player>) context.get(USERS_TAG);
+        playerHands = (Map<String, PlayerHand>) context.get(PLAYER_HANDS_TAG);
 
+        // Instantiate the player hands if not stored in the context yet
         if (playerHands == null) {
-            playerHands = new HashMap<String, List<Card>>();
+            playerHands = new HashMap<>();
             context.put(PLAYER_HANDS_TAG, playerHands);
         }
         topUpHands(usersMap, playerHands);
 
+        // Retrieve the black card for this round
         blackCard = CardManager.getRandBlackCard();
         if(blackCard == null){
             // TODO: FAILED TO FETCH BLACK CARD
         }
         submittedCards = new HashMap<>();
 
+        // Start the countdown timer
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                if (countdownTimer > 0) {
-                        update();
-                        countdownTimer--;
-                } else {
-                    timer.cancel();
-                    //manager.setState(new KahVoteState(manager, context));
-                }
+            if (countdownTimer > 0) {
+                    update();
+                    countdownTimer--;
+            } else {
+                transition(new KahVoteState(manager, context));
+            }
             }
         }, 5000, 1000);
 
@@ -69,6 +69,7 @@ public class KahSubmitState extends State {
         JSONData.put("timer", countdownTimer);
         JsonView json = new JsonView(JSONData);
         String timerUpdate = json.toString();
+
         HashMap<String, Player> usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
         for(Player p : usersMap.values()) {
             p.writeUpdate(timerUpdate);
@@ -81,19 +82,24 @@ public class KahSubmitState extends State {
         View view = null;
 
         HashMap<String, Object> templateData = new HashMap<>();
-        templateData.put("cards", convertTemplate(playerHands.get(uid)));
+        // Add generic template fields to the data map
         templateData.put("timer", countdownTimer);
-
         templateData.put("gamecode", this.getContext().get(GAME_CODE_TAG));
         templateData.put("uid", uid);
 
-        templateData.put("hostCardText", blackCard.getCardText());
-
-        // Handle submit view
+        // Add host/player specific fields and set the corresponding ftl files
         try {
             if(uid == null) {
+                // Handle host view
+                templateData.put("hostCardText", blackCard.getCardText());
+
                 view = new TemplateView(webRootPath, "hostSubmission.ftl", templateData);
             } else {
+                // Handle user view
+                PlayerHand hand = playerHands.get(uid);
+                if (hand != null)
+                    templateData.put("cards", hand.asMap());
+
                 view = new TemplateView(webRootPath, "playerHand.ftl", templateData);
             }
         } catch (IOException e) {
@@ -111,12 +117,22 @@ public class KahSubmitState extends State {
             case "submit":
                 // Update the user's submitted card with the new card
                 SubmitAction submitAction = new SubmitAction(action);
-                submittedCards.put(uid, submitAction.getSelected());
+
+                // Ensure the player owns the card they're trying to play
+                PlayerHand pHand = playerHands.get(uid);
+                if(pHand == null || !pHand.hasCard(submitAction.getSelected())){
+                    // TODO: Handle failure. User does not own the card they're trying to play
+                    return;
+                }
+
+                // Submit the card
+                Card toPlay = pHand.playCard(submitAction.getSelected());
+                submittedCards.put(uid, toPlay.getCardID());
 
                 // If all votes are accounted for, transition states
                 if(submittedCards.size() == usersMap.size()) {
                     // attach the list of cards to the context before starting new state
-                    manager.setState(new KahVoteState(manager, context));
+                    transition(new KahVoteState(manager, context));
                 }
                 break;
         }
@@ -129,32 +145,22 @@ public class KahSubmitState extends State {
      * @param users
      * @param playerHands
      */
-    private void topUpHands(HashMap<String, Player> users, Map<String, List<Card>> playerHands){
+    private void topUpHands(HashMap<String, Player> users, Map<String, PlayerHand> playerHands){
 
         for(Player player : users.values()){
-            List<Card> playerHand = playerHands.get(player.getUserID());
+            PlayerHand playerHand = playerHands.get(player.getUserID());
             if(playerHand == null) {
-                playerHand = new ArrayList<Card>();
+                playerHand = new PlayerHand();
                 playerHands.put(player.getUserID(), playerHand);
             }
 
-            if(playerHand.size() < HAND_COUNT) {
-                List<Card> newCards = CardManager.getWhiteCards(HAND_COUNT - playerHand.size());
-                playerHand.addAll(newCards);
-            }
+            playerHand.refill();
         }
     }
 
-    public HashMap<String, String> convertTemplate(List<Card> cards) {
-        HashMap<String, String> cardList = new HashMap<String, String>();
-        if (cards == null) { return cardList; }
-
-        for(Card c : cards) {
-            String cardID = c.getCardID();
-            String cardText = c.getCardText();
-            cardList.put(cardID, cardText);
-        }
-        return cardList;
+    private void transition(State state){
+        timer.cancel();
+        manager.setState(state);
     }
 }
 

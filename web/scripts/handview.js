@@ -7,7 +7,6 @@ function startup() {
         cards[i].addEventListener("click", selectMe);
     }
     document.getElementById("timer").addEventListener("click", submit);
-
 }
 
 function selectMe() {
@@ -23,9 +22,10 @@ function submitted () {
 
 function submit() {
     var goldcard = $(".selectedcard").first();
+
     var submitAction = {
         "type":"submit",
-        "cardID":goldcard.attr("data-cardId")
+        "cardID": goldcard.attr("data-cardId")
     }
     $.ajax({
         type: "POST",

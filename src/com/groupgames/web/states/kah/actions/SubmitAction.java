@@ -7,11 +7,20 @@ public class SubmitAction extends GameAction {
 
     public SubmitAction(GameAction baseAction) throws IllegalArgumentException {
         super(baseAction);
-        requireField(CARD_ID_TAG, Integer.class);
+        requireField(CARD_ID_TAG, String.class);
 
     }
 
     public Integer getSelected(){
-        return (Integer) parsed.get(CARD_ID_TAG);
+        String rawId = (String) parsed.get(CARD_ID_TAG);
+        Double id = null;
+
+        try {
+            id = Double.valueOf(rawId);
+        } catch (NumberFormatException e){
+            e.printStackTrace();
+        }
+
+        return id.intValue();
     }
 }
