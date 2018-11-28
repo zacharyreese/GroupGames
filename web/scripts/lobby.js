@@ -1,26 +1,15 @@
 var gameWord;
-$(".selbox")[0].style.display = "none";
 window.onload = start;
 
 function start() {
-    $(".selbox")[0].style.display = "none";
-    $(".gtbtn").click(swap);
-    $(".gtbtnx").click(swapback);
     $(".startbtn").click(startgame);
     $(".lbyuserxbtn").click(kick);
+    $(".gameType").click(changeGameText);
 }
 
-function swap() {
-    $(".selbox")[0].style.display = "block";
-}
 
-function swapback() {
-    $(".selbox")[0].style.display = "none";
-    gameWord = $(".gtSelector")[0].value;
-}
-
-function startgame() {
-    var gameSelection = gameWord || $(".gtSelector")[0].value;
+function startgame () {
+    var gameSelection = gameWord || $(".gameType")[0].attr("data-gameId");
 
     //your ajax request will go here.
     $.ajax({
@@ -36,12 +25,14 @@ function startgame() {
         dataType: "json",
         contentType: "application/json; charset=utf-8",
     });
-    setTimeout(function () {
-        location.reload();
-    }, 500);
 }
 
-function kick() {
+function changeGameText () {
+    document.getElementById("lbygametext").innerHTML =  this.innerHTML;
+    gameWord = $(this).attr("data-gameId");
+}
+
+function kick () {
     $(this).attr("data-playerId"); //this gets the id of the player to be kicked rest of function needs writing
     location.reload();
 }

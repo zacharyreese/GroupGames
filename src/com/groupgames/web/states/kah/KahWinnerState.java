@@ -36,6 +36,9 @@ public class KahWinnerState extends State {
         usersMap = (HashMap<String, Player>) getContext().get(USERS_TAG);
         winner = (Player) getContext().get(WINNER_TAG);
         winningCard = (Card) getContext().get(WINNING_CARD_TAG);
+        if (winningCard == null) {
+            winningCard = new Card(-1, "No card was chosen as the winner :(");
+        }
 
         // Start the countdown timer
         timer = new Timer();
