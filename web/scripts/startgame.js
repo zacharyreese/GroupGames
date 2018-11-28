@@ -1,5 +1,3 @@
-$(function () {
-   setTimeout(function () {
-       location.reload();
-   }, 3500);
-});
+setTimeout(function () {
+   location.reload();
+}, 3500);
