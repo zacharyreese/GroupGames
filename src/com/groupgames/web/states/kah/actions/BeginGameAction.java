@@ -12,6 +12,7 @@ public class BeginGameAction extends GameAction {
     }
 
     public String getSelected(){
+
         return (String) parsed.get(SELECTED_TAG);
     }
 }
