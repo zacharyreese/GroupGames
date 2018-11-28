@@ -33,8 +33,21 @@ function changeGameText () {
 }
 
 function kick () {
-    $(this).attr("data-playerId"); //this gets the id of the player to be kicked rest of function needs writing
-    location.reload();
+    var playerUid = $(this).attr("data-playerId"); //this gets the id of the player to be kicked rest of function needs writing
+
+    //your ajax request will go here.
+    $.ajax({
+        type: "POST",
+        url: window.location.pathname,
+        data: JSON.stringify({
+            "type": "kick",
+            "uid": playerUid,
+        }),
+        success: function () {
+        },
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+    });
 }
 
 function updateUsers(users, isHost){
@@ -52,5 +65,6 @@ function updateUsers(users, isHost){
         }
 
         userContainer.append(userDom);
+        $(".lbyuserxbtn").click(kick);
     });
 }

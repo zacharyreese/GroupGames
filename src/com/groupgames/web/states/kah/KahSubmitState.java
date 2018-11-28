@@ -16,7 +16,7 @@ import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 public class KahSubmitState extends State {
     public static final String PLAYER_HANDS_TAG = "playerHands";
 
-    private Integer countdownTimer = 30;
+    private Integer countdownTimer;
     private Timer timer;
 
     private Map<String, PlayerHand> playerHands;
@@ -43,6 +43,7 @@ public class KahSubmitState extends State {
         }
         submittedCards = new HashMap<>();
 
+        countdownTimer = 30;
         // Start the countdown timer
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -51,6 +52,7 @@ public class KahSubmitState extends State {
                         countdownTimer--;
                 } else {
                     transitionVoteState();
+                    cancel();
                 }
                 update();
             }
@@ -147,6 +149,7 @@ public class KahSubmitState extends State {
 
     private void transitionVoteState(){
         timer.cancel();
+        timer = null;
 
         Map<String, Object> context = this.getContext();
         context.put(KahVoteState.SUBMIT_CARDS_TAG, submittedCards);

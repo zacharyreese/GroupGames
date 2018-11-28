@@ -86,6 +86,25 @@ public abstract class State {
         broadcast(broadcastData);
     }
 
+    public void kickPlayer(String uid){
+        if (usersMap.containsKey(uid)) {
+            String username = usersMap.get(uid).getUsername();
+
+            HashMap<String, Object> broadcastData = new HashMap<>();
+            broadcastData.put("kick", uid);
+
+            HashMap<String, Player> withoutUser = new HashMap<>(usersMap);
+            withoutUser.remove(uid);
+            broadcastData.put("users", withoutUser.values());
+
+            String kickMessage = String.format("%s has been kicked from the game", username);
+            broadcastData.put("message", kickMessage);
+            broadcast(broadcastData);
+
+            usersMap.remove(uid);
+        }
+    }
+
     /**
      * Return the current state's context
      *

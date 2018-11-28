@@ -4,10 +4,10 @@ CREATE DATABASE groupgames;
 USE groupgames;
 
 # Create a user account for the server instance
-#DROP USER IF EXISTS 'gg_server'@'%';
-#FLUSH PRIVILEGES;
-#CREATE USER 'gg_server'@'%' IDENTIFIED BY 'password';
-#GRANT ALL PRIVILEGES ON GroupGames.* TO 'gg_server'@'%';
+DROP USER IF EXISTS 'gg_server'@'%';
+FLUSH PRIVILEGES;
+CREATE USER 'gg_server'@'%' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON GroupGames.* TO 'gg_server'@'%';
 
 ## Table creation should be inserted below.
 

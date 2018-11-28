@@ -16,7 +16,7 @@
         </#list>
         </#if>
     </section>
-    <button class="btn btn-danger font-weight-bold" id="x-btn">X</button>
+    <button class="btn btn-danger font-weight-bold quitbtn" id="x-btn">X</button>
     <button class="btn btn-primary font-weight-bold timerbtn" id="timer">${timer}</button>
 
     <script type="application/javascript" src="/scripts/jquery-3.3.1.min.js"></script>

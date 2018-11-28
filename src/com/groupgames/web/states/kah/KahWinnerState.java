@@ -2,22 +2,18 @@ package com.groupgames.web.states.kah;
 
 import com.groupgames.web.core.Card;
 import com.groupgames.web.core.Player;
-import com.groupgames.web.core.PlayerHand;
 import com.groupgames.web.game.GameAction;
 import com.groupgames.web.game.State;
 import com.groupgames.web.game.StateManager;
-import com.groupgames.web.game.view.JsonView;
 import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
 import com.groupgames.web.states.kah.actions.QuitAction;
 import com.groupgames.web.states.lobby.PlayerJoinState;
-import com.groupgames.web.states.kah.actions.QuitAction;
+import com.groupgames.web.states.lobby.actions.GameStartAction;
 
 import java.io.IOException;
 import java.util.*;
 
-import static com.groupgames.web.states.lobby.PlayerJoinState.GAME_CODE_TAG;
-import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 
 public class KahWinnerState extends State {
     public static final String WINNING_CARD_TAG = "winningCard";
@@ -27,7 +23,7 @@ public class KahWinnerState extends State {
     private Card winningCard;
     private Player winner;
 
-    private int countdownTimer = 10;
+    private int countdownTimer;
     private Timer timer;
 
     public KahWinnerState(StateManager manager, Map<String, Object> context) {
@@ -40,6 +36,8 @@ public class KahWinnerState extends State {
             winningCard = new Card(-1, "No card was chosen as the winner :(");
         }
 
+        countdownTimer = 10;
+
         // Start the countdown timer
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -47,6 +45,7 @@ public class KahWinnerState extends State {
                 if (countdownTimer > 0) {
                     countdownTimer--;
                 } else {
+                    cancel();
                     manager.setState(new KahSubmitState(manager, context));
                     broadcastRefresh();
                 }
@@ -98,8 +97,18 @@ public class KahWinnerState extends State {
             case "quit":
                 // Handle options change
                 QuitAction quit = new QuitAction(action);
-                manager.setState(new PlayerJoinState(manager, context));
-                broadcastRefresh();
+                for(String userID : usersMap.keySet()){
+                    kickPlayer(userID);
+                }
+                break;
+            case "navigation":
+                GameStartAction navAction = new GameStartAction(action);
+                if (navAction.getSelected().equalsIgnoreCase("lobby")) {
+                    // Handle options change
+                    timer.cancel();
+                    timer = null;
+                    manager.setState(new PlayerJoinState(manager, getContext()));
+                }
                 break;
         }
     }

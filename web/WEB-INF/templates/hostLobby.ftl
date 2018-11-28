@@ -59,12 +59,17 @@
     <script src="/scripts/lobby.js"></script>
     <script src="/scripts/sidebar.js"></script>
     <script>
+        var gameCode = "${gamecode}";
+        <#if uid??>
+        var userId = "${uid}";
+        </#if>
+
         var wsHost = window.location.hostname + (window.location.port != "" ? ":" + window.location.port : "");
         var ws = new WebSocket("ws://" + wsHost + "/hostWS");
 
         ws.onopen = function(event){
             ws.send(JSON.stringify({
-                "gamecode" : "${gamecode}"
+                "gamecode" : gameCode
             }));
         };
 
@@ -77,6 +82,8 @@
             } else {
                 if(updateEvent.users)
                     updateUsers(updateEvent.users, true);
+                if(updateEvent.message)
+                    alert(updateEvent.message);
             }
         };
     </script>

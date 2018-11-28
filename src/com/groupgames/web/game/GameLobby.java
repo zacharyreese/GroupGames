@@ -90,6 +90,7 @@ public class GameLobby implements StateManager {
 
     @Override
     public synchronized void setState(State state) {
+        State oldState = this.currentState;
         this.currentState = state;
     }
 

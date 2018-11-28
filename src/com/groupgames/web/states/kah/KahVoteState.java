@@ -7,7 +7,6 @@ import com.groupgames.web.core.PlayerHand;
 import com.groupgames.web.game.GameAction;
 import com.groupgames.web.game.State;
 import com.groupgames.web.game.StateManager;
-import com.groupgames.web.game.view.JsonView;
 import com.groupgames.web.game.view.TemplateView;
 import com.groupgames.web.game.view.View;
 import com.groupgames.web.states.kah.actions.CardSubmitAction;
@@ -19,7 +18,7 @@ public class KahVoteState extends State {
     public static final String SUBMIT_CARDS_TAG = "submittedCards";
     public static final String BLACK_CARD_TAG = "blackCard";
 
-    private Integer countdownTimer = 30;
+    private Integer countdownTimer;
     private Timer timer;
 
     private HashMap<String, Card> submittedCards; // map userID to the card they played
@@ -34,6 +33,7 @@ public class KahVoteState extends State {
         submittedCards = (HashMap<String, Card>) getContext().get(SUBMIT_CARDS_TAG);
         blackCard = (Card) getContext().get(BLACK_CARD_TAG);
 
+        countdownTimer = 30;
         // Start the countdown timer
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -145,6 +145,7 @@ public class KahVoteState extends State {
 
     private void transitionWinState(){
         timer.cancel();
+        timer = null;
 
         Map<String, Object> context = this.getContext();
 

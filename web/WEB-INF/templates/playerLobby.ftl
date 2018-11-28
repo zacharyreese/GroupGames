@@ -19,13 +19,18 @@
     <script type="application/javascript" src="/scripts/jquery-3.3.1.min.js"></script>
     <script src="/scripts/lobby.js"></script>
     <script>
+        var gameCode = "${gamecode}";
+        <#if uid??>
+        var userId = "${uid}";
+        </#if>
+
         var wsHost = window.location.hostname + (window.location.port != "" ? ":" + window.location.port : "");
         var ws = new WebSocket("ws://" + wsHost + "/playWS");
 
         ws.onopen = function(event){
             ws.send(JSON.stringify({
-                "player_id": "${uid}",
-                "gamecode" : "${gamecode}"
+                "player_id": userId,
+                "gamecode" : gameCode
             }));
         };
 
@@ -39,6 +44,12 @@
             } else {
                 if(updateEvent.users)
                     updateUsers(updateEvent.users, false);
+                if(updateEvent.kick) {
+                    if (updateEvent.kick == userId){
+                        alert("You have been kicked from the game");
+                        window.location.href = "/"
+                    }
+                }
             }
         };
     </script>

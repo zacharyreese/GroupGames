@@ -35,12 +35,7 @@ public class PlayerJoinState extends State {
         HashMap<String, Object> JSONData = new HashMap<>();
         JSONData.put("users", usersMap.values());
         JSONData.put("method", "update");
-        JsonView json = new JsonView(JSONData);
-        String jsonStr = json.toString();
-        for(Player p : usersMap.values()) {
-            p.writeUpdate(jsonStr);
-        }
-        writeUpdate(jsonStr);
+        broadcast(JSONData);
     }
 
     @Override
@@ -80,8 +75,7 @@ public class PlayerJoinState extends State {
             case "kick":
                 // Handle kick action
                 KickAction kickAction = new KickAction(action);
-                usersMap.remove(uid);
-                update();
+                kickPlayer(kickAction.getPlayerUid());
                 break;
         }
     }

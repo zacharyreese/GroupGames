@@ -24,13 +24,15 @@ import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 
 public class KahStartState extends State {
 
-    private int countdownTimer = 5;
+    private int countdownTimer;
     private Timer timer;
 
     HashMap<String, Object> templateData = new HashMap<>();
 
     public KahStartState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
+
+        countdownTimer = 5;
 
         //forceRefresh();
         timer = new Timer();
@@ -76,6 +78,8 @@ public class KahStartState extends State {
         switch (action.getType()) {
             case "begin":
                 // Handles begin game action
+                timer.cancel();
+                timer = null;
                 BeginGameAction beginGameAction = new BeginGameAction(action);
                 manager.setState(new KahSubmitState(manager, context));
                 break;

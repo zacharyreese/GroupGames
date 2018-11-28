@@ -17,6 +17,7 @@
             <div class="whitecard"> ${winnerCardText} </div>
         </div>
     </div>
+    <button class="btn btn-danger font-weight-bold quitbtn" id="x-btn">X</button>
     <div class="btn badge-pill badge-primary font-weight-bold border border-white timerbtn text-center">${timer}</div>
 
     <script src="/scripts/jquery-3.3.1.min.js"></script>
