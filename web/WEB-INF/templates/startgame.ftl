@@ -2,12 +2,6 @@
 <html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script>
-        var ws = new WebSocket("ws://ansel.jacobposton.com/hostWS");
-        ws.onmessage = function (event) { //Receive from websocket
-            console.log(event.data);
-        }
-    </script>
     <style>
         body, html {
             height: 100%;
@@ -29,6 +23,21 @@
         </style>
     <script type="application/javascript" src="/scripts/jquery-3.3.1.min.js"></script>
     <script src="/scripts/startgame.js"></script>
+    <script>
+        var wsHost = window.location.hostname + (window.location.port != "" ? ":" + window.location.port : "");
+        var ws = new WebSocket("ws://" + wsHost + "/playWS");
+
+        ws.onopen = function(event){
+            ws.send(JSON.stringify({
+                "player_id": "${uid}",
+                "gamecode" : "${gamecode}"
+            }));
+        };
+
+        ws.onmessage = function (event) { //Receive from websocket
+            console.log(event.data);
+        }
+    </script>
 </head>
 
 <body>

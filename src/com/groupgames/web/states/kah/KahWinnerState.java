@@ -61,6 +61,7 @@ public class KahWinnerState extends State {
         for(Player p : usersMap.values()) {
             p.writeUpdate(timerUpdate);
         }
+        writeUpdate(timerUpdate);
     }
 
     @Override
@@ -77,8 +78,13 @@ public class KahWinnerState extends State {
 
         // Add host/player specific fields and set the corresponding ftl files
         try {
-            // Handle host view
-            view = new TemplateView(webRootPath, "winner.ftl", templateData);
+            if(uid == null){
+                // Handle host view
+                view = new TemplateView(webRootPath, "hostWinView.ftl", templateData);
+            } else {
+                // Handle host view
+                view = new TemplateView(webRootPath, "playerWinView.ftl", templateData);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

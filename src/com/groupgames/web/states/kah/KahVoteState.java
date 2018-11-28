@@ -63,6 +63,7 @@ public class KahVoteState extends State {
         for(Player p : usersMap.values()) {
             p.writeUpdate(timerUpdate);
         }
+        writeUpdate(timerUpdate);
     }
 
     @Override

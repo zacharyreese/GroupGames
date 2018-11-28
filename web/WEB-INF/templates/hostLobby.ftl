@@ -34,22 +34,24 @@
     <script src="/scripts/lobby.js"></script>
     <script>
         var wsHost = window.location.hostname + (window.location.port != "" ? ":" + window.location.port : "");
-        var ws = new WebSocket("ws://" + wsHost + "/GroupGames_Web_exploded/hostWS");
-
-        ws.onmessage = function (event) { //Receive from websocket
-            var updateEvent = JSON.parse(event.data);
-
-            if (updateEvent.method == "refresh") {
-                location.reload();
-            } else {
-                updateUsers(updateEvent.users, true);
-            }
-        };
+        var ws = new WebSocket("ws://" + wsHost + "/hostWS");
 
         ws.onopen = function(event){
             ws.send(JSON.stringify({
                 "gamecode" : "${gamecode}"
             }));
+        };
+
+        ws.onmessage = function (event) { //Receive from websocket
+            console.log(event.data);
+            var updateEvent = JSON.parse(event.data);
+
+            if (updateEvent.method == "refresh") {
+                location.reload();
+            } else {
+                if(updateEvent.users)
+                    updateUsers(updateEvent.users, true);
+            }
         };
     </script>
 </body>

@@ -47,12 +47,12 @@ public class KahSubmitState extends State {
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-            if (countdownTimer > 0) {
-                    update();
-                    countdownTimer--;
-            } else {
-                //transitionVoteState();
-            }
+                if (countdownTimer > 0) {
+                        countdownTimer--;
+                } else {
+                    //transitionVoteState();
+                }
+                update();
             }
         }, 5000, 1000);
     }

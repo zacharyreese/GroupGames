@@ -50,7 +50,7 @@ public class HostServlet extends GameBaseServlet {
         }
 
         // Perform the action
-        lobby.doAction(clientSession.getId(), playerAction);
+        lobby.doAction(null, playerAction);
 
         View view = lobby.getView(null, webRootPath);
         if (view == null || !view.respond(response.getWriter())) {
