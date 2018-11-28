@@ -4,10 +4,10 @@ CREATE DATABASE groupgames;
 USE groupgames;
 
 # Create a user account for the server instance
-DROP USER 'gg_server'@'localhost';
-FLUSH PRIVILEGES;
-CREATE USER 'gg_server'@'localhost' IDENTIFIED BY 'password';
-GRANT ALL PRIVILEGES ON GroupGames.* TO 'gg_server'@'localhost';
+#DROP USER IF EXISTS 'gg_server'@'%';
+#FLUSH PRIVILEGES;
+#CREATE USER 'gg_server'@'%' IDENTIFIED BY 'password';
+#GRANT ALL PRIVILEGES ON GroupGames.* TO 'gg_server'@'%';
 
 ## Table creation should be inserted below.
 
@@ -78,7 +78,7 @@ VALUES ('_______________ of Unusual Size? I don''t believe in them.'),
        ('The latest miracle is a statue whose eyes bleed when in the presence of _______________.'),
        ('Why can''t we have nice things?');
 
-INSERT INTO kah_whitecard (CardText)
+INSERT INTO KaH_WhiteCard (CardText)
 VALUES ('Nipple hair.'),
        ('"Working" from home.'),
        ('15 wild badgers living in my trousers.'),

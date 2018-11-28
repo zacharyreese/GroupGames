@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script>
-        var ws = new WebSocket("ws://localhost:8080/GroupGames_Web_exploded/hostWS");
+        var ws = new WebSocket("ws://ansel.jacobposton.com/hostWS");
         ws.onmessage = function (event) { //Receive from websocket
             console.log(event.data);
         }
@@ -27,8 +27,8 @@
             background-size: cover;
         }
         </style>
-    <script type="application/javascript" src="/GroupGames_Web_exploded/scripts/jquery-3.3.1.min.js"></script>
-    <script src="/GroupGames_Web_exploded/scripts/startgame.js"></script>
+    <script type="application/javascript" src="/scripts/jquery-3.3.1.min.js"></script>
+    <script src="/scripts/startgame.js"></script>
 </head>
 
 <body>

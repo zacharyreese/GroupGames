@@ -4,7 +4,7 @@
     <title>display hand</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet"  href="/GroupGames_Web_exploded/css/style.css"/>
+    <link rel="stylesheet"  href="/css/style.css"/>
 </head>
 
 <body>
@@ -16,10 +16,10 @@
         </div> 
     </div>
 
-    <script type="application/javascript" src="/GroupGames_Web_exploded/scripts/jquery-3.3.1.min.js"></script>
-    <script src="/GroupGames_Web_exploded/scripts/lobby.js"></script>
+    <script type="application/javascript" src="/scripts/jquery-3.3.1.min.js"></script>
+    <script src="/scripts/lobby.js"></script>
     <script>
-        var ws = new WebSocket("ws://localhost:8080/GroupGames_Web_exploded/playWS");
+        var ws = new WebSocket("ws://ansel.jacobposton.com/playWS");
 
         ws.onmessage = function (event) { //Receive from websocket
             console.log(event.data);
