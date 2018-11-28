@@ -19,7 +19,8 @@
     <script type="application/javascript" src="/GroupGames_Web_exploded/scripts/jquery-3.3.1.min.js"></script>
     <script src="/GroupGames_Web_exploded/scripts/lobby.js"></script>
     <script>
-        var ws = new WebSocket("ws://localhost:8080/GroupGames_Web_exploded/playWS");
+        var wsHost = window.location.hostname + (window.location.port != "" ? ":" + window.location.port : "");
+        var ws = new WebSocket("ws://" + wsHost + "/GroupGames_Web_exploded/playWS");
 
         ws.onmessage = function (event) { //Receive from websocket
             console.log(event.data);
