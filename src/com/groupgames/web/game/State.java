@@ -55,7 +55,7 @@ public abstract class State {
 
     public boolean writeUpdate(String updateText) {
         Session websocket = (Session) getContext().get(HOST_WS_TAG);
-        if (websocket != null) {
+        if (websocket != null && websocket.isOpen()) {
             try {
                 websocket.getBasicRemote().sendText(updateText);
                 return true;

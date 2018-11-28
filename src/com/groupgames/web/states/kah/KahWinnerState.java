@@ -52,7 +52,7 @@ public class KahWinnerState extends State {
                 }
                 update();
             }
-        }, 5000, 1000);
+        }, 100, 1000);
     }
 
     @Override

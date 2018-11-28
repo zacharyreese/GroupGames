@@ -39,7 +39,7 @@ public class Player {
 
     public boolean writeUpdate(String updateText) {
 
-        if (websocket != null) {
+        if (websocket != null && websocket.isOpen()) {
             try {
                 websocket.getBasicRemote().sendText(updateText);
                 return true;
