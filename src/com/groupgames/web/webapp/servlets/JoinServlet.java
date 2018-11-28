@@ -24,6 +24,9 @@ public class JoinServlet extends GameBaseServlet {
             return;
         }
 
+        // Ignore case on the gamecode input
+        gameCode = gameCode.toUpperCase();
+
         GameLobby lobby = gameManager.getLobby(gameCode);
         if (lobby == null){
             respondWithError(response, "error.ftl", ServletError.RESOURCE_NOT_FOUND);

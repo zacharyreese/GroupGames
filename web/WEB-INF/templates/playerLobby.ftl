@@ -19,7 +19,8 @@
     <script type="application/javascript" src="/scripts/jquery-3.3.1.min.js"></script>
     <script src="/scripts/lobby.js"></script>
     <script>
-        var ws = new WebSocket("ws://ansel.jacobposton.com/playWS");
+        var wsHost = window.location.hostname + (window.location.port != "" ? ":" + window.location.port : "");
+        var ws = new WebSocket("ws://" + wsHost + "/GroupGames_Web_exploded/playWS");
 
         ws.onmessage = function (event) { //Receive from websocket
             console.log(event.data);
