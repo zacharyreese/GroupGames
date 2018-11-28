@@ -108,6 +108,9 @@ public class KahWinnerState extends State {
                     timer.cancel();
                     timer = null;
                     manager.setState(new PlayerJoinState(manager, getContext()));
+                    for(String userID : usersMap.keySet()){
+                        kickPlayer(userID);
+                    }
                 }
                 break;
         }

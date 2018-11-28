@@ -76,6 +76,8 @@ public class KahSubmitState extends State {
         templateData.put("gamecode", this.getContext().get(GAME_CODE_TAG));
         templateData.put("uid", uid);
 
+        templateData.put("handMessage", "Submit a card to fill in the prompt!");
+
         // Add host/player specific fields and set the corresponding ftl files
         try {
             if(uid == null) {

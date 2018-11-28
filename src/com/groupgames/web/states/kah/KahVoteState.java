@@ -65,6 +65,8 @@ public class KahVoteState extends State {
         templateData.put("gamecode", this.getContext().get(GAME_CODE_TAG));
         templateData.put("uid", uid);
 
+        templateData.put("handMessage", "Pick the best card!");
+
         // Add host/player specific fields and set the corresponding ftl files
         try {
             if(uid == null) {

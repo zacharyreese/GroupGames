@@ -13,6 +13,7 @@
                     <div class="playerscore"> ${user.username}:{player.score??}</div>
                 </#list>-->
         </div>-->
+        <h2>The winner is:</h2>
         <div class="host-card">
             <div class="whitecard"> ${winnerCardText} </div>
         </div>

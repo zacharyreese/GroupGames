@@ -12,8 +12,8 @@
             <p class="header-child">Totally Not Kahoot</p>
         </div>
         <form action="game/play/join" method="post" class="main item-b">
-            <input type="text" class="text-center main-child rounded bg-primary text-white font-weight-bold" name="username" placeholder="User Name:">
-            <input type="text" class="text-center main-child rounded bg-primary text-white font-weight-bold" name="gamecode" placeholder="Lobby ID:">
+            <input type="text" maxlength="20" class="text-center main-child rounded bg-primary text-white font-weight-bold" name="username" placeholder="User Name:">
+            <input type="text" maxlength="6" class="text-center main-child rounded bg-primary text-white font-weight-bold" name="gamecode" placeholder="Lobby ID:">
             <button type="submit" class="main-child badge badge-pill badge-primary">Join Lobby</button>
         </form>
         <form action="game/host/new" method="post" class="main  btn-host">
