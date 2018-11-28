@@ -29,8 +29,8 @@
 
         ws.onopen = function(event){
             ws.send(JSON.stringify({
-                "player_id": "${uid}",
-                "gamecode" : "${gamecode}"
+                "gamecode" : "${gamecode}",
+                <#if uid??>"player_id": "${uid}"</#if>
             }));
         };
 

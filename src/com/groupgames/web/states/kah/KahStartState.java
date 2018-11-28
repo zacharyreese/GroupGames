@@ -23,15 +23,15 @@ import static com.groupgames.web.states.lobby.PlayerJoinState.GAME_CODE_TAG;
 import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 
 public class KahStartState extends State {
-    int countdownTimer = 3;
+
+    private int countdownTimer = 5;
     private Timer timer;
-    public static final String HOST_WS_TAG = "hostWS";
+
     HashMap<String, Object> templateData = new HashMap<>();
-    HashMap<String, Player> usersMap;
 
     public KahStartState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
-        usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
+
         //forceRefresh();
         timer = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
@@ -43,7 +43,7 @@ public class KahStartState extends State {
                     manager.setState(new KahSubmitState(manager, context));
                 }
             }
-        }, 0, 1000);
+        }, 100, 1000);
     }
 
     @Override
@@ -57,8 +57,8 @@ public class KahStartState extends State {
 
         // Handle start view
         HashMap<String, Object> templateData = new HashMap<>();
-        /*templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
-        templateData.put("users", getContext().get(USERS_TAG));*/
+        templateData.put("gamecode", getContext().get(GAME_CODE_TAG));
+        templateData.put("uid", uid);
 
         try {
             view = new TemplateView(webRootPath,"startgame.ftl", templateData);

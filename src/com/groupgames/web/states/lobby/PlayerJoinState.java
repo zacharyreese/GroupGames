@@ -93,21 +93,11 @@ public class PlayerJoinState extends State {
         switch (selectedGame) {
             case "KaH":
                 manager.setState(new KahStartState(manager, context));
+                broadcastRefresh();
                 return true;
         }
 
         // Failed to match any configured games. Return false to indicate start failure
         return false;
-    }
-
-    private void forceRefresh(){
-        HashMap<String, Object> JSONData = new HashMap<>();
-        JSONData.put("method", "refresh");
-        JsonView json = new JsonView(JSONData);
-        String refreshCommand = json.toString();
-        for(Player p : usersMap.values()) {
-            p.writeUpdate(refreshCommand);
-        }
-        writeUpdate(refreshCommand);
     }
 }

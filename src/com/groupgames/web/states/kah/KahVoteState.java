@@ -15,17 +15,13 @@ import com.groupgames.web.states.kah.actions.CardSubmitAction;
 import java.io.IOException;
 import java.util.*;
 
-import static com.groupgames.web.states.lobby.PlayerJoinState.GAME_CODE_TAG;
-import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
-
 public class KahVoteState extends State {
     public static final String SUBMIT_CARDS_TAG = "submittedCards";
     public static final String BLACK_CARD_TAG = "blackCard";
 
-    private Integer countdownTimer = 10;
+    private Integer countdownTimer = 30;
     private Timer timer;
 
-    private HashMap<String, Player> usersMap;
     private HashMap<String, Card> submittedCards; // map userID to the card they played
     private Card blackCard;
 
@@ -35,7 +31,6 @@ public class KahVoteState extends State {
     public KahVoteState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
 
-        usersMap = (HashMap<String, Player>) getContext().get(USERS_TAG);
         submittedCards = (HashMap<String, Card>) getContext().get(SUBMIT_CARDS_TAG);
         blackCard = (Card) getContext().get(BLACK_CARD_TAG);
 
@@ -46,24 +41,18 @@ public class KahVoteState extends State {
                 if (countdownTimer > 0) {
                     countdownTimer--;
                 } else {
-                    //transitionWinState();
+                    transitionWinState();
                 }
                 update();
             }
-        }, 5000, 1000);
+        }, 100, 1000);
     }
 
     @Override
     public void update() {
         HashMap<String, Object> JSONData = new HashMap<>();
         JSONData.put("timer", countdownTimer);
-        JsonView json = new JsonView(JSONData);
-        String timerUpdate = json.toString();
-        HashMap<String, Player> usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
-        for(Player p : usersMap.values()) {
-            p.writeUpdate(timerUpdate);
-        }
-        writeUpdate(timerUpdate);
+        broadcast(JSONData);
     }
 
     @Override
@@ -155,13 +144,16 @@ public class KahVoteState extends State {
     }
 
     private void transitionWinState(){
+        timer.cancel();
+
         Map<String, Object> context = this.getContext();
 
         Card winningCard = getVotedCard(this.cardVotes);
         context.put(KahWinnerState.WINNING_CARD_TAG, winningCard);
         context.put(KahWinnerState.WINNER_TAG, getWinner(winningCard));
 
-        timer.cancel();
         manager.setState(new KahWinnerState(manager, context));
+
+        broadcastRefresh();
     }
 }

@@ -28,7 +28,7 @@ public class KahWinnerState extends State {
     private Player winner;
 
     private int countdownTimer = 10;
-    private static Timer timer;
+    private Timer timer;
 
     public KahWinnerState(StateManager manager, Map<String, Object> context) {
         super(manager, context);
@@ -44,7 +44,8 @@ public class KahWinnerState extends State {
                 if (countdownTimer > 0) {
                     countdownTimer--;
                 } else {
-                    //transitionWinState();
+                    manager.setState(new KahSubmitState(manager, context));
+                    broadcastRefresh();
                 }
                 update();
             }
@@ -55,13 +56,7 @@ public class KahWinnerState extends State {
     public void update() {
         HashMap<String, Object> JSONData = new HashMap<>();
         JSONData.put("timer", countdownTimer);
-        JsonView json = new JsonView(JSONData);
-        String timerUpdate = json.toString();
-        HashMap<String, Player> usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
-        for(Player p : usersMap.values()) {
-            p.writeUpdate(timerUpdate);
-        }
-        writeUpdate(timerUpdate);
+        broadcast(JSONData);
     }
 
     @Override
@@ -101,7 +96,7 @@ public class KahWinnerState extends State {
                 // Handle options change
                 QuitAction quit = new QuitAction(action);
                 manager.setState(new PlayerJoinState(manager, context));
-
+                broadcastRefresh();
                 break;
         }
     }

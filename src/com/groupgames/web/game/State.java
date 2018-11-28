@@ -1,6 +1,9 @@
 package com.groupgames.web.game;
 
+import com.groupgames.web.core.Player;
+import com.groupgames.web.game.view.JsonView;
 import com.groupgames.web.game.view.View;
+import javafx.beans.binding.ObjectBinding;
 
 import javax.websocket.Session;
 import java.io.IOException;
@@ -8,9 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class State {
+    public static final String USERS_TAG = "users";
+    public static final String GAME_CODE_TAG = "gamecode";
     public static final String HOST_WS_TAG = "hostWS";
 
     protected StateManager manager;
+    protected HashMap<String, Player> usersMap;
+
     private Map<String, Object> context;
 
     /**
@@ -38,6 +45,8 @@ public abstract class State {
             // Copy the existing context to prevent editing the existing one
             this.context = new HashMap<>(context);
         }
+
+        usersMap = (HashMap<String, Player>) getContext().get(USERS_TAG);
     }
 
     public void setWebsocket(Session peer) {
@@ -58,6 +67,23 @@ public abstract class State {
 
         // Failed to write update. User hasn't registered websocket connection yet
         return false;
+    }
+
+    public void broadcast(HashMap<String, Object> jsonData){
+
+        JsonView jsonView = new JsonView(jsonData);
+        String jsonEncoded = jsonView.toString();
+
+        for(Player p : usersMap.values()) {
+            p.writeUpdate(jsonEncoded);
+        }
+        writeUpdate(jsonEncoded);
+    }
+
+    public void broadcastRefresh(){
+        HashMap<String, Object> broadcastData = new HashMap<>();
+        broadcastData.put("method", "refresh");
+        broadcast(broadcastData);
     }
 
     /**

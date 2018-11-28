@@ -16,7 +16,7 @@ import static com.groupgames.web.states.lobby.PlayerJoinState.USERS_TAG;
 public class KahSubmitState extends State {
     public static final String PLAYER_HANDS_TAG = "playerHands";
 
-    private Integer countdownTimer = 10;
+    private Integer countdownTimer = 30;
     private Timer timer;
 
     private Map<String, PlayerHand> playerHands;
@@ -50,25 +50,18 @@ public class KahSubmitState extends State {
                 if (countdownTimer > 0) {
                         countdownTimer--;
                 } else {
-                    //transitionVoteState();
+                    transitionVoteState();
                 }
                 update();
             }
-        }, 5000, 1000);
+        }, 100, 1000);
     }
 
     @Override
     public void update() {
         HashMap<String, Object> JSONData = new HashMap<>();
         JSONData.put("timer", countdownTimer);
-        JsonView json = new JsonView(JSONData);
-        String timerUpdate = json.toString();
-
-        HashMap<String, Player> usersMap = (HashMap<String, Player>)getContext().get(USERS_TAG);
-        for(Player p : usersMap.values()) {
-            p.writeUpdate(timerUpdate);
-        }
-        writeUpdate(timerUpdate);
+        broadcast(JSONData);
     }
 
     @Override
@@ -153,11 +146,16 @@ public class KahSubmitState extends State {
     }
 
     private void transitionVoteState(){
+        timer.cancel();
+
         Map<String, Object> context = this.getContext();
         context.put(KahVoteState.SUBMIT_CARDS_TAG, submittedCards);
         context.put(KahVoteState.BLACK_CARD_TAG, blackCard);
-        timer.cancel();
+
+
         manager.setState(new KahVoteState(manager, context));
+
+        broadcastRefresh();
     }
 }
 
