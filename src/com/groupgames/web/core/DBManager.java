@@ -9,7 +9,7 @@ import java.sql.SQLException;
 public class DBManager {
     private static final String dbUrl  = "jdbc:mysql://localhost/";
     private static final String dbName = "groupgames";
-    private static final String dbUser = "root";
+    private static final String dbUser = "gg_server";
     private static final String dbPass = "password";
 
     private static DBManager dbManagerInstance;

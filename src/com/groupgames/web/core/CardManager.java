@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class CardManager {
     public static ArrayList<Card> getWhiteCards(int cardAmount) {
-        String SQL = "SELECT * FROM kah_whitecard ORDER BY RAND() LIMIT " + cardAmount;
+        String SQL = "SELECT * FROM KaH_WhiteCard ORDER BY RAND() LIMIT " + cardAmount;
         ArrayList<Card> whiteCardsList = new ArrayList<>();
 
         try {
@@ -26,7 +26,7 @@ public class CardManager {
     }
 
     public static ArrayList<Card> getAllBlackCards() {
-        String SQL = "SELECT * FROM kah_blackcard";
+        String SQL = "SELECT * FROM KaH_BlackCard";
         ArrayList<Card> blackCardsList = new ArrayList<>();
 
         try {
@@ -47,7 +47,7 @@ public class CardManager {
     }
 
     public static Card getRandBlackCard() {
-        String SQL = "SELECT * FROM kah_blackcard ORDER BY RAND() LIMIT 1";
+        String SQL = "SELECT * FROM KaH_BlackCard ORDER BY RAND() LIMIT 1";
         Card card = null;
 
         try {
@@ -67,7 +67,7 @@ public class CardManager {
     }
 
     public static Card getWhiteCardId(int cardId) {
-        String SQL = "SELECT * FROM kah_whitecard WHERE CardId = " + cardId;
+        String SQL = "SELECT * FROM KaH_WhiteCard WHERE CardId = " + cardId;
         Card card = null;
 
         try {
