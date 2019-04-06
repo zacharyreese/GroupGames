@@ -1,5 +1,5 @@
 
-# Group Games
+# Group Games (Kahoot Against Humanity)
 Distributed Web Systems Design [CSCI-5436-A]
 
 # Before you begin
