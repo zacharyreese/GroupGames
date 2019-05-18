@@ -2,6 +2,8 @@
 # Group Games (Kahoot Against Humanity)
 Distributed Web Systems Design [CSCI-5436-A]
 
+An online multiplayer card game, similar to Cards Against Humanity. Each round there is a main black card and each player has 5 white cards. Every player votes on the funniest card combination, and the winning card combo is displayed. The server/client lobby system is similar to Kahoot, where when a new lobby is created, the creator is given a lobby code that other players can use to join the lobby. The player who created the lobby can kick players or start the game when he desires.
+
 # Before you begin
 Download the JBoss Wildfly Server: [here](http://wildfly.org/downloads/) or [direct download v14.0.1](http://download.jboss.org/wildfly/14.0.1.Final/servlet/wildfly-servlet-14.0.1.Final.zip)
 Unzip the contents to a permanent installation directory. (Remember this location. We'll use it later)
